@@ -89,7 +89,8 @@ var TaskListView = Backbone.View.extend({
     el: "#taskListView",
 
     initialize: function(){
-        this.collection.on("add", this.addTaskView, this);
+        this.collection.on("add", this.render, this);
+        this.collection.on("remove", this.checkEmpty, this);
         this.collection.on("reset", this.render, this);
         pubsub.on("UPDATE_TASK_LIST", this.render, this);
     },
@@ -116,12 +117,13 @@ var TaskListView = Backbone.View.extend({
                 });
             }
         }
+        this._displayedModels = models;
         $(this.el).html("");
 
         if(models.length>0){
             _.each(models, this.addTaskView, this);
         }else{
-            $(this.el).append($(document.createTextNode("No Tasks")));
+            this.checkEmpty();
         }
     },
 
@@ -130,8 +132,15 @@ var TaskListView = Backbone.View.extend({
         $(this.el).append(view.render().$el);
     },
 
+    checkEmpty: function(){
+        if(this._displayedModels && this._displayedModels.length === 0){
+            $(this.el).html("No Tasks");
+        }
+    },
+
     destroy: function(){
-        this.collection.off("add", this.addTaskView);
+        this.collection.off("add", this.render);
+        this.collection.off("remove", this.checkEmpty);
         this.collection.off("reset", this.render);
         pubsub.off("UPDATE_TASK_LIST", this.collection.load);
         Backbone.View.prototype.destroy.call(this);
