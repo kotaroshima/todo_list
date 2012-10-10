@@ -7,12 +7,12 @@ var pubsub = _.extend({}, Backbone.Events);
 
 var Task = Backbone.Model.extend({
     isCreatedAt: function(date){
-        var d = new Date(this.model.get("createdAt"));
+        var d = new Date(this.get("createdAt"));
         return d.getFullYear() === date.getFullYear() && d.getMonth() === date.getMonth() && d.getDate() === date.getDate();
     },
 
     hasTag: function(tag){
-        var tags = this.model.get("tags");
+        var tags = this.get("tags");
         return tags ? tags.indexOf(tag) >= 0 : false;
     }
 });
@@ -118,22 +118,19 @@ var TaskListView = Backbone.View.extend({
     el: "#taskListView",
 
     initialize: function(){
-        this.collection.on("add", this.render, this);
-        this.collection.on("remove", this.checkEmpty, this);
-        this.collection.on("reset", this.render, this);
+        this.collection.on("add remove reset", this.render, this);
         pubsub.on("UPDATE_TASK_LIST", this.render, this);
     },
 
     render: function(options){
         var models = this.collection.filter(options);
 
-        this._displayedModels = models;
         $(this.el).html("");
 
         if(models.length>0){
             _.each(models, this.addTaskView, this);
         }else{
-            this.checkEmpty();
+            $(this.el).html("No Tasks");
         }
     },
 
@@ -142,16 +139,8 @@ var TaskListView = Backbone.View.extend({
         $(this.el).append(view.render().$el);
     },
 
-    checkEmpty: function(){
-        if(this._displayedModels && this._displayedModels.length === 0){
-            $(this.el).html("No Tasks");
-        }
-    },
-
     destroy: function(){
-        this.collection.off("add", this.render);
-        this.collection.off("remove", this.checkEmpty);
-        this.collection.off("reset", this.render);
+        this.collection.off("add remove reset", this.render);
         pubsub.off("UPDATE_TASK_LIST", this.render, this);
         Backbone.View.prototype.destroy.call(this);
     }
