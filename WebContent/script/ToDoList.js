@@ -6,8 +6,13 @@
 var pubsub = _.extend({}, Backbone.Events);
 
 var Task = Backbone.Model.extend({
+    isCreatedAt: function(date){
+        var d = new Date(this.model.get("createdAt"));
+        return d.getFullYear() === date.getFullYear() && d.getMonth() === date.getMonth() && d.getDate() === date.getDate();
+    },
+
     hasTag: function(tag){
-        var tags = this.model.tags;
+        var tags = this.model.get("tags");
         return tags ? tags.indexOf(tag) >= 0 : false;
     }
 });
@@ -16,18 +21,42 @@ var TaskList = Backbone.Collection.extend({
     model: Task,
     STORE_KEY: "TaskList",
     localStorage: new Store(this.STORE_KEY),
-    
+
     load: function(options){
         //var KEY_NAME = this.STORE_KEY;
         var KEY_NAME = "undefined"; // don't know why key gets "undefined"...
         var models = null;
-        if (localStorage[KEY_NAME]){
+        if(localStorage[KEY_NAME]){
             var arr = localStorage[KEY_NAME].split(",");
             models = _.map(arr, function(KEY){
                 return JSON.parse(localStorage[KEY_NAME + "-" + KEY]);
             });
         }
         this.reset(models);
+    },
+
+    filter: function(options){
+        var models = this.models;
+
+        // filter by tag/date
+        if(options){
+            // currently, only particular date is supported,
+            // but we may enhance it so that we can:
+            // - specify both date and time
+            // - specify before/after/between the specified date/time
+            var targetDate = options.date;
+            if(targetDate){
+                models = models.filter(function(model){
+                    return model.isCreatedAt(targetDate);
+                });
+            }else if(options.tag){
+                models = models.filter(function(model){
+                    return model.hasTag(options.tag);
+                });
+            }
+        }
+
+        return models;
     }
 });
 
@@ -96,27 +125,8 @@ var TaskListView = Backbone.View.extend({
     },
 
     render: function(options){
-        var models = this.collection.models;
+        var models = this.collection.filter(options);
 
-        // filter by tag/date
-        if(options){
-            // currently, only particular date is supported,
-            // but we may enhance it so that we can:
-            // - specify both date and time
-            // - specify before/after/between the specified date/time
-            var targetDate = options.date;
-            if(targetDate){
-                models = models.filter(function(model){
-                    var d = new Date(model.get("createdAt"));
-                    return d.getFullYear() === targetDate.getFullYear() && d.getMonth() === targetDate.getMonth() && d.getDate() === targetDate.getDate();
-                });
-            }else if(options.tag){
-                models = models.filter(function(model){
-                    var tagArr =  model.get("tags");
-                    return tagArr && $.isArray(tagArr) ? tagArr.indexOf(options.tag) >= 0 : false;
-                });
-            }
-        }
         this._displayedModels = models;
         $(this.el).html("");
 
@@ -142,7 +152,7 @@ var TaskListView = Backbone.View.extend({
         this.collection.off("add", this.render);
         this.collection.off("remove", this.checkEmpty);
         this.collection.off("reset", this.render);
-        pubsub.off("UPDATE_TASK_LIST", this.collection.load);
+        pubsub.off("UPDATE_TASK_LIST", this.render, this);
         Backbone.View.prototype.destroy.call(this);
     }
 });
