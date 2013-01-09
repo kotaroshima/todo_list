@@ -19,6 +19,7 @@ Libraries Used
 * [Backbone.js](http://backbonejs.org/)
 * [QUnit](http://qunitjs.com/)
 * [Backbone LocalStorage Adaptor](http://documentcloud.github.com/backbone/docs/backbone-localstorage.html)
+* [Require.js](http://http://requirejs.org/)
 
 ----------
-Copyright &copy; 2012 Kotaro Shima
+Copyright &copy; 2013 Kotaro Shima
