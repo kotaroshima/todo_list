@@ -1,0 +1,16 @@
+<div class="editTaskView">
+  <table><tbody>
+    <tr>
+      <th><label for="newTaskTextField">Description</label>:</th>
+      <td><input id="newTaskTextField" type="text" value="<%=text%>" /></td>
+    </tr>
+    <tr>
+      <th><label for="tagField">Tags</label>:<div>(comma-separated)</div></th>
+      <td><textarea id="tagField" type="text"><%=tagStr%></textarea></td>
+    </tr>
+  </tbody></table>
+  <div class="editTaskButtonContainer">
+    <button id="cancelTaskBtn">Cancel</button>
+    <button id="saveTaskBtn">Save</button>
+  </div>
+</div>
