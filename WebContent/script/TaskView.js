@@ -15,11 +15,11 @@ var TaskView = Backbone.View.extend({
     },
 
     initialize: function(){
-        this.model.on("change", this.render, this);
-        this.model.on("destroy", this.remove, this);
+        this.listenTo(this.model, "change", this.render);
+        this.listenTo(this.model, "destroy", this.remove);
     },
 
-    render: function(){
+    render: function(model, value, options){
         var attrs = this.model.attributes;
         var d = new Date(attrs["createdAt"]);
         attrs["formattedTime"] = _.template("<%=month%>/<%=day%>/<%=year%> <%=hours%>:<%=minutes%>", { year:d.getFullYear(), month:d.getMonth()+1, day:d.getDate(), hours:d.getHours(), minutes:d.getMinutes() });
@@ -52,9 +52,8 @@ var TaskView = Backbone.View.extend({
     },
     
     destroy: function(){
-        this.model.off("change", this.render);
-        this.model.off("destroy", this.remove);
-        Backbone.View.prototype.destroy.call(this);
+        this.stopListening(this.model);
+        Backbone.View.prototype.remove.call(this);
     }
 });
 

@@ -57,14 +57,14 @@ var EditTaskView = Backbone.View.extend({
         if (this._model){
             // edit
             task = this._model;
-            task.save(prop);
+            task.set(prop);
         }else{
             // add new
             prop["createdAt"] = new Date().getTime();
             task = new TaskModel(prop);
             this.collection.add(task);
-            task.save();
         }
+        task.save();
 
         this._model = null;
         $(this.el).dialog('close');
@@ -77,7 +77,7 @@ var EditTaskView = Backbone.View.extend({
 
     destroy: function(){
         pubsub.off("SHOW_TASK_EDITOR", this.show);
-        Backbone.View.prototype.destroy.call(this);
+        Backbone.View.prototype.remove.call(this);
     }
 });
 
