@@ -20,6 +20,7 @@ Libraries Used
 * [QUnit](http://qunitjs.com/)
 * [Backbone LocalStorage Adaptor](http://documentcloud.github.com/backbone/docs/backbone-localstorage.html)
 * [Require.js](http://http://requirejs.org/)
+* [Sass](http://sass-lang.com/)
 
 ----------
 Copyright &copy; 2013 Kotaro Shima
