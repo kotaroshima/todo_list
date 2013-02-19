@@ -21,6 +21,7 @@ Libraries Used
 * [Backbone LocalStorage Adaptor](http://documentcloud.github.com/backbone/docs/backbone-localstorage.html)
 * [Require.js](http://http://requirejs.org/)
 * [Sass](http://sass-lang.com/)
+* [CoffeeScript](http://coffeescript.org/)
 
 ----------
 Copyright &copy; 2013 Kotaro Shima
