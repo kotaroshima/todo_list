@@ -58,13 +58,13 @@ define(
     )
     $('#datePicker').datepicker(
       onSelect:(dateText, inst)->
-        pubsub.trigger "UPDATE_TASK_LIST", { dateText:dateText, date:$('#datePicker').datepicker("getDate") }
+        pubsub.trigger "UPDATE_TASK_LIST", { dateText:dateText, date:$('#datePicker').datepicker "getDate" }
       onClose:(dateText, inst)->
         if !dateText or dateText.length is 0
           pubsub.trigger "UPDATE_TASK_LIST" # publish so that task list gets refreshed with no date filter
     )
-    $('#newTaskBtn').on "click",->pubsub.trigger("SHOW_TASK_EDITOR")
-    $('#showAllLink').on "click",->pubsub.trigger("UPDATE_TASK_LIST")
+    $('#newTaskBtn').on "click", ->pubsub.trigger "SHOW_TASK_EDITOR"
+    $('#showAllLink').on "click", ->pubsub.trigger "UPDATE_TASK_LIST"
     taskList.load()
     pubsub.trigger "UPDATE_TASK_LIST"
 )

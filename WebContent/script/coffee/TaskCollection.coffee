@@ -5,7 +5,7 @@ define(
     Backbone.Collection.extend
       model: TaskModel
       STORE_KEY: "TaskList"
-      localStorage: new Store(@STORE_KEY)
+      localStorage: new Store @STORE_KEY
 
       load:(options)->
         #KEY_NAME = @STORE_KEY

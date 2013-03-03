@@ -3,7 +3,7 @@ define(
   ($, _, Backbone, viewTemplate) ->
 
     Backbone.View.extend
-      template: _.template(viewTemplate)
+      template: _.template viewTemplate
 
       events:
         "click .editBtn": "onEditButtonClicked"
@@ -17,8 +17,8 @@ define(
       render:(model, value, options) ->
         attrs = @model.attributes
         d = new Date attrs["createdAt"]
-        attrs["formattedTime"] = _.template("<%=month%>/<%=day%>/<%=year%> <%=hours%>:<%=minutes%>", { year:d.getFullYear(), month:d.getMonth()+1, day:d.getDate(), hours:d.getHours(), minutes:d.getMinutes() })
-        $(@el).html this.template(attrs)
+        attrs["formattedTime"] = _.template "<%=month%>/<%=day%>/<%=year%> <%=hours%>:<%=minutes%>", { year:d.getFullYear(), month:d.getMonth()+1, day:d.getDate(), hours:d.getHours(), minutes:d.getMinutes() }
+        $(@el).html this.template attrs
 
         # append tag nodes
         tagContainer = $(@el).find ".tagContainer"
@@ -38,12 +38,12 @@ define(
         return
 
       onDeleteButtonClicked:->
-        if confirm(_.template("Are you sure you want to delete '<%=text%>'?", @model.attributes))
+        if confirm _.template "Are you sure you want to delete '<%=text%>'?", @model.attributes
           @model.destroy()
         return
 
       destroy:->
         this.stopListening @model
-        Backbone.View::remove.call(this)
+        Backbone.View::remove.call this
         return
 )

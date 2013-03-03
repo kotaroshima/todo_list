@@ -21,7 +21,7 @@ define(
         this
 
       addTaskView:(task)->
-        view = new TaskView(model: task)
+        view = new TaskView model: task
         $(@el).append view.render().$el
         @_taskViews.push view
         return
@@ -39,6 +39,6 @@ define(
       destroy:->
         @collection.off "add remove reset", this.render
         pubsub.off "UPDATE_TASK_LIST", this.render, this
-        Backbone.View::remove.call(this)
+        Backbone.View::remove.call this
         return
 )

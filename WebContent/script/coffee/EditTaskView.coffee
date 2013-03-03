@@ -5,7 +5,7 @@ define(
     Backbone.View.extend
       el: "#dialogContainer"
 
-      template: _.template(viewTemplate)
+      template: _.template viewTemplate
 
       events:
         "click #saveTaskBtn": "onSaveButtonClicked"
@@ -26,7 +26,7 @@ define(
           ,
           ""
         )
-        $(@el).html this.template(attrs)
+        $(@el).html this.template attrs
         this
 
       show:(model)->
@@ -69,6 +69,6 @@ define(
   
       destroy:->
         pubsub.off "SHOW_TASK_EDITOR", this.show
-        Backbone.View::remove.call(this)
+        Backbone.View::remove.call this
         return
 )
