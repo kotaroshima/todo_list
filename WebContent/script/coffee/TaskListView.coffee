@@ -39,6 +39,6 @@ define(
       destroy:->
         @collection.off "add remove reset", this.render
         pubsub.off "UPDATE_TASK_LIST", this.render, this
-        Backbone.View.prototype.remove.call(this)
+        Backbone.View::remove.call(this)
         return
 )

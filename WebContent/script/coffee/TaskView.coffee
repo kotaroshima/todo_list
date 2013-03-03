@@ -44,6 +44,6 @@ define(
 
       destroy:->
         this.stopListening @model
-        Backbone.View.prototype.remove.call(this)
+        Backbone.View::remove.call(this)
         return
 )

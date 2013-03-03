@@ -69,6 +69,6 @@ define(
   
       destroy:->
         pubsub.off "SHOW_TASK_EDITOR", this.show
-        Backbone.View.prototype.remove.call(this)
+        Backbone.View::remove.call(this)
         return
 )
