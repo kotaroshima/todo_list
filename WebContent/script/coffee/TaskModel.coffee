@@ -1,7 +1,7 @@
 define(
-  [ 'Underscore', 'Backbone', 'TaskModel' ],
-  (_, Backbone, TaskModel)->
-    class TaskModel extends Backbone.Model
+  ['Backbone'],
+  (Backbone)->
+    Backbone.Model.extend
       isCreatedAt:(date)->
         d = new Date this.get("createdAt")
         d.getFullYear() is date.getFullYear() and d.getMonth() is date.getMonth() and d.getDate() is date.getDate()

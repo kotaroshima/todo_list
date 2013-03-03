@@ -1,14 +1,14 @@
 define(
-  ['Underscore','Backbone','TaskCollection','TaskModel'],
-  (_, Backbone, TaskCollection, TaskModel)->
+  ['Underscore', 'Backbone.localStorage', 'TaskModel'],
+  (_, Backbone, TaskModel)->
 
-    class TaskCollection extends Backbone.Collection
+    Backbone.Collection.extend
       model: TaskModel
       STORE_KEY: "TaskList"
-      localStorage: new Store(this.STORE_KEY)
+      localStorage: new Store(@STORE_KEY)
 
       load:(options)->
-        #KEY_NAME = this.STORE_KEY
+        #KEY_NAME = @STORE_KEY
         KEY_NAME = "undefined" # don't know why key gets "undefined"...
         if localStorage[KEY_NAME]
           arr = localStorage[KEY_NAME].split ","
@@ -20,7 +20,7 @@ define(
         this.reset models
 
       filter:(options)->
-        models = this.models
+        models = @models
 
         # filter by tag/date
         if options

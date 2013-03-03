@@ -1,11 +1,11 @@
 define(
-  ['jQuery','Underscore','Backbone.localStorage','EditTaskView','TaskModel','text!template/EditTaskView.html'],
-  ($, _, Backbone, EditTaskView, TaskModel, editTaskViewTemplate)->
+  ['jQuery', 'Underscore', 'Backbone.localStorage', 'TaskModel', 'text!template/EditTaskView.html'],
+  ($, _, Backbone, TaskModel, viewTemplate)->
 
-    class EditTaskView extends Backbone.View
+    Backbone.View.extend
       el: "#dialogContainer"
 
-      template: _.template(editTaskViewTemplate)
+      template: _.template(viewTemplate)
 
       events:
         "click #saveTaskBtn": "onSaveButtonClicked"
@@ -15,7 +15,7 @@ define(
         pubsub.on "SHOW_TASK_EDITOR", this.show, this
 
       render:->
-        attrs = if this._model then this._model.attributes else { text:"" }
+        attrs = if @_model then @_model.attributes else { text:"" }
         # generate a comma-separated string from an array
         attrs["tagStr"] = _.reduce(
           attrs["tags"],
@@ -26,12 +26,12 @@ define(
           ,
           ""
         )
-        $(this.el).html this.template(attrs)
+        $(@el).html this.template(attrs)
         this
 
       show:(model)->
         title = if model then "Edit Task" else "Create New Task"
-        this._model = model
+        @_model = model
         this.render().$el.dialog(
           title: title,
           width: 600,
@@ -46,23 +46,23 @@ define(
         prop =
           text: $("#newTaskTextField").val()
           tags: tagArr
-        if this._model
+        if @_model
           # edit
-          task = this._model
+          task = @_model
           task.set prop
         else
           # add new
           prop["createdAt"] = new Date().getTime()
           task = new TaskModel prop
-          this.collection.add task
+          @collection.add task
         task.save()
   
-        this._model = null
-        $(this.el).dialog 'close'
+        @_model = null
+        $(@el).dialog 'close'
       
       onCancelButtonClicked:->
-        this._model = null
-        $(this.el).dialog 'close'
+        @_model = null
+        $(@el).dialog 'close'
   
       destroy:->
         pubsub.off "SHOW_TASK_EDITOR", this.show

@@ -1,26 +1,26 @@
 define(
-  ['jQuery','Underscore','Backbone','TaskView','text!template/TaskView.html'],
-  ($, _, Backbone, TaskView, taskViewTemplate) ->
+  ['jQuery', 'Underscore', 'Backbone', 'text!template/TaskView.html'],
+  ($, _, Backbone, viewTemplate) ->
 
-    class TaskView extends Backbone.View
-      template: _.template(taskViewTemplate)
+    Backbone.View.extend
+      template: _.template(viewTemplate)
 
       events:
         "click .editBtn": "onEditButtonClicked"
         "click .deleteBtn": "onDeleteButtonClicked"
 
       initialize:->
-        this.listenTo this.model, "change", this.render
-        this.listenTo this.model, "destroy", this.remove
+        this.listenTo @model, "change", this.render
+        this.listenTo @model, "destroy", this.remove
 
       render:(model, value, options) ->
-        attrs = this.model.attributes
+        attrs = @model.attributes
         d = new Date attrs["createdAt"]
         attrs["formattedTime"] = _.template("<%=month%>/<%=day%>/<%=year%> <%=hours%>:<%=minutes%>", { year:d.getFullYear(), month:d.getMonth()+1, day:d.getDate(), hours:d.getHours(), minutes:d.getMinutes() })
-        $(this.el).html this.template(attrs)
+        $(@el).html this.template(attrs)
 
         # append tag nodes
-        tagContainer = $(this.el).find ".tagContainer"
+        tagContainer = $(@el).find ".tagContainer"
         _.each(
           attrs["tags"],
           (tag, idx) ->
@@ -33,13 +33,13 @@ define(
         this
 
       onEditButtonClicked:->
-        pubsub.trigger "SHOW_TASK_EDITOR", this.model
+        pubsub.trigger "SHOW_TASK_EDITOR", @model
 
       onDeleteButtonClicked:->
-        if confirm(_.template("Are you sure you want to delete '<%=text%>'?", this.model.attributes))
-          this.model.destroy()
+        if confirm(_.template("Are you sure you want to delete '<%=text%>'?", @model.attributes))
+          @model.destroy()
 
       destroy:->
-        this.stopListening this.model
+        this.stopListening @model
         Backbone.View.prototype.remove.call(this)
 )
