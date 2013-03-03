@@ -12,6 +12,7 @@ define(
       initialize:->
         this.listenTo @model, "change", this.render
         this.listenTo @model, "destroy", this.remove
+        return
 
       render:(model, value, options) ->
         attrs = @model.attributes
@@ -34,12 +35,15 @@ define(
 
       onEditButtonClicked:->
         pubsub.trigger "SHOW_TASK_EDITOR", @model
+        return
 
       onDeleteButtonClicked:->
         if confirm(_.template("Are you sure you want to delete '<%=text%>'?", @model.attributes))
           @model.destroy()
+        return
 
       destroy:->
         this.stopListening @model
         Backbone.View.prototype.remove.call(this)
+        return
 )

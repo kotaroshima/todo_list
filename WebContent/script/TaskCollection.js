@@ -15,7 +15,7 @@
             return JSON.parse(localStorage[KEY_NAME + "-" + KEY]);
           });
         }
-        return this.reset(models);
+        this.reset(models);
       },
       filter: function(options) {
         var models, targetDate;

@@ -37,6 +37,7 @@ define(
           width: 600,
           height: 300
         )
+        return
 
       onSaveButtonClicked:->
         tagArr = _.chain($("#tagField").val().split(",")).map($.trim).reject(
@@ -59,12 +60,15 @@ define(
   
         @_model = null
         $(@el).dialog 'close'
+        return
       
       onCancelButtonClicked:->
         @_model = null
         $(@el).dialog 'close'
+        return
   
       destroy:->
         pubsub.off "SHOW_TASK_EDITOR", this.show
         Backbone.View.prototype.remove.call(this)
+        return
 )

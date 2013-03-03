@@ -31,7 +31,7 @@
         var title;
         title = model ? "Edit Task" : "Create New Task";
         this._model = model;
-        return this.render().$el.dialog({
+        this.render().$el.dialog({
           title: title,
           width: 600,
           height: 300
@@ -56,15 +56,15 @@
         }
         task.save();
         this._model = null;
-        return $(this.el).dialog('close');
+        $(this.el).dialog('close');
       },
       onCancelButtonClicked: function() {
         this._model = null;
-        return $(this.el).dialog('close');
+        $(this.el).dialog('close');
       },
       destroy: function() {
         pubsub.off("SHOW_TASK_EDITOR", this.show);
-        return Backbone.View.prototype.remove.call(this);
+        Backbone.View.prototype.remove.call(this);
       }
     });
   });

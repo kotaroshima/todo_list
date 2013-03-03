@@ -8,7 +8,6 @@
         this.collection.on("add remove reset", this.render, this);
         pubsub.on("UPDATE_TASK_LIST", this.render, this);
         this._taskViews = [];
-        return this;
       },
       render: function(options) {
         var models;
@@ -27,24 +26,22 @@
           model: task
         });
         $(this.el).append(view.render().$el);
-        return this._taskViews.push(view);
+        this._taskViews.push(view);
       },
       clearTaskViews: function() {
-        var i, _i, _ref, _results;
-        _results = [];
+        var i, _i, _ref;
         for (i = _i = _ref = this._taskViews.length - 1; _i >= 0; i = _i += -1) {
-          _results.push(this.removeTaskView(i));
+          this.removeTaskView(i);
         }
-        return _results;
       },
       removeTaskView: function(index) {
         this._taskViews[index].destroy();
-        return this._taskViews.splice(index, 1);
+        this._taskViews.splice(index, 1);
       },
       destroy: function() {
         this.collection.off("add remove reset", this.render);
         pubsub.off("UPDATE_TASK_LIST", this.render, this);
-        return Backbone.View.prototype.remove.call(this);
+        Backbone.View.prototype.remove.call(this);
       }
     });
   });

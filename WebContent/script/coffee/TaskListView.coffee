@@ -9,7 +9,7 @@ define(
         @collection.on "add remove reset", this.render, this
         pubsub.on "UPDATE_TASK_LIST", this.render, this
         @_taskViews = []
-        this
+        return
 
       render:(options)->
         models = @collection.filter options
@@ -24,17 +24,21 @@ define(
         view = new TaskView(model: task)
         $(@el).append view.render().$el
         @_taskViews.push view
+        return
 
       clearTaskViews:->
         for i in [@_taskViews.length-1..0] by -1
           this.removeTaskView i
+        return
 
       removeTaskView:(index)->
         @_taskViews[index].destroy()
         @_taskViews.splice index,1
+        return
 
       destroy:->
         @collection.off "add remove reset", this.render
         pubsub.off "UPDATE_TASK_LIST", this.render, this
         Backbone.View.prototype.remove.call(this)
+        return
 )

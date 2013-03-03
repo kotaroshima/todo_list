@@ -10,7 +10,7 @@
       },
       initialize: function() {
         this.listenTo(this.model, "change", this.render);
-        return this.listenTo(this.model, "destroy", this.remove);
+        this.listenTo(this.model, "destroy", this.remove);
       },
       render: function(model, value, options) {
         var attrs, d, tagContainer;
@@ -42,16 +42,16 @@
         return this;
       },
       onEditButtonClicked: function() {
-        return pubsub.trigger("SHOW_TASK_EDITOR", this.model);
+        pubsub.trigger("SHOW_TASK_EDITOR", this.model);
       },
       onDeleteButtonClicked: function() {
         if (confirm(_.template("Are you sure you want to delete '<%=text%>'?", this.model.attributes))) {
-          return this.model.destroy();
+          this.model.destroy();
         }
       },
       destroy: function() {
         this.stopListening(this.model);
-        return Backbone.View.prototype.remove.call(this);
+        Backbone.View.prototype.remove.call(this);
       }
     });
   });
