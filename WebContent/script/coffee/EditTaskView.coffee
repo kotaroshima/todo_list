@@ -12,7 +12,7 @@ define(
         "click #cancelTaskBtn": "onCancelButtonClicked"
 
       initialize:->
-        pubsub.on "SHOW_TASK_EDITOR", this.show, this
+        pubsub.on "SHOW_TASK_EDITOR", @show, @
 
       render:->
         attrs = if @_model then @_model.attributes else { text:"" }
@@ -26,13 +26,13 @@ define(
           ,
           ""
         )
-        $(@el).html this.template attrs
-        this
+        $(@el).html @template attrs
+        @
 
       show:(model)->
         title = if model then "Edit Task" else "Create New Task"
         @_model = model
-        this.render().$el.dialog(
+        @render().$el.dialog(
           title: title,
           width: 600,
           height: 300
@@ -68,7 +68,7 @@ define(
         return
   
       destroy:->
-        pubsub.off "SHOW_TASK_EDITOR", this.show
-        Backbone.View::remove.call this
+        pubsub.off "SHOW_TASK_EDITOR", @show
+        Backbone.View::remove.call @
         return
 )

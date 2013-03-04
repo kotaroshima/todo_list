@@ -10,15 +10,15 @@ define(
         "click .deleteBtn": "onDeleteButtonClicked"
 
       initialize:->
-        this.listenTo @model, "change", this.render
-        this.listenTo @model, "destroy", this.remove
+        @listenTo @model, "change", @render
+        @listenTo @model, "destroy", @remove
         return
 
       render:(model, value, options) ->
         attrs = @model.attributes
         d = new Date attrs["createdAt"]
         attrs["formattedTime"] = _.template "<%=month%>/<%=day%>/<%=year%> <%=hours%>:<%=minutes%>", { year:d.getFullYear(), month:d.getMonth()+1, day:d.getDate(), hours:d.getHours(), minutes:d.getMinutes() }
-        $(@el).html this.template attrs
+        $(@el).html @template attrs
 
         # append tag nodes
         tagContainer = $(@el).find ".tagContainer"
@@ -31,7 +31,7 @@ define(
             )
             tagContainer.append anchor
         )
-        this
+        @
 
       onEditButtonClicked:->
         pubsub.trigger "SHOW_TASK_EDITOR", @model
@@ -43,7 +43,7 @@ define(
         return
 
       destroy:->
-        this.stopListening @model
-        Backbone.View::remove.call this
+        @stopListening @model
+        Backbone.View::remove.call @
         return
 )

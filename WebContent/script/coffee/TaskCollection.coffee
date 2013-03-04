@@ -17,7 +17,7 @@ define(
             (KEY)->
               JSON.parse localStorage[KEY_NAME + "-" + KEY]
           )
-        this.reset models
+        @reset models
         return
 
       filter:(options)->

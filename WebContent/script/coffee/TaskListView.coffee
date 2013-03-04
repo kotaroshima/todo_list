@@ -6,19 +6,19 @@ define(
       el: "#taskListView"
 
       initialize:->
-        @collection.on "add remove reset", this.render, this
-        pubsub.on "UPDATE_TASK_LIST", this.render, this
+        @collection.on "add remove reset", @render, @
+        pubsub.on "UPDATE_TASK_LIST", @render, @
         @_taskViews = []
         return
 
       render:(options)->
         models = @collection.filter options
-        this.clearTaskViews()
+        @clearTaskViews()
         if models.length > 0
-          _.each models, this.addTaskView, this
+          _.each models, @addTaskView, @
         else
           $(@el).html "No Tasks"
-        this
+        @
 
       addTaskView:(task)->
         view = new TaskView model: task
@@ -28,7 +28,7 @@ define(
 
       clearTaskViews:->
         for i in [@_taskViews.length-1..0] by -1
-          this.removeTaskView i
+          @removeTaskView i
         return
 
       removeTaskView:(index)->
@@ -37,8 +37,8 @@ define(
         return
 
       destroy:->
-        @collection.off "add remove reset", this.render
-        pubsub.off "UPDATE_TASK_LIST", this.render, this
-        Backbone.View::remove.call this
+        @collection.off "add remove reset", @render
+        pubsub.off "UPDATE_TASK_LIST", @render, @
+        Backbone.View::remove.call @
         return
 )
