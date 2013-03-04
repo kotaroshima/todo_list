@@ -27,7 +27,7 @@ define(
           (tag, idx) ->
             if idx > 0 then tagContainer.append "&nbsp;"
             anchor = $(document.createElement("a")).prop(href:"javascript:void(0)").text(tag).click((evt)->
-              pubsub.trigger "UPDATE_TASK_LIST", { tag:tag }
+              pubsub.trigger "UPDATE_LIST", { tag:tag }
             )
             tagContainer.append anchor
         )
@@ -42,7 +42,7 @@ define(
           @model.destroy()
         return
 
-      destroy:->
+      remove:->
         @stopListening @model
         Backbone.View::remove.call @
         return

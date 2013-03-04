@@ -67,7 +67,7 @@ define(
         $(@el).dialog 'close'
         return
   
-      destroy:->
+      remove:->
         pubsub.off "SHOW_TASK_EDITOR", @show
         Backbone.View::remove.call @
         return

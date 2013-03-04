@@ -30,15 +30,15 @@ shim =
 requirejs.config paths: paths, shim: shim
 
 define(
-  ['jQueryUI','Underscore','TaskCollection','TaskListView','EditTaskView'],
-  ($, _, TaskCollection, TaskListView, EditTaskView)->
+  ['jQueryUI', 'Underscore', 'TaskCollection', 'ListView', 'TaskView', 'EditTaskView'],
+  ($, _, TaskCollection, ListView, TaskView, EditTaskView)->
     pubsub = window.pubsub = _.extend {}, Backbone.Events
     taskList = new TaskCollection()
     new EditTaskView collection: taskList
-    new TaskListView collection: taskList
+    new ListView el: "#taskListView", itemClass: TaskView, collection: taskList
 
     pubsub.on(
-      "UPDATE_TASK_LIST",
+      "UPDATE_LIST",
       (options)->
         hasFilter = false
         if options
@@ -58,13 +58,13 @@ define(
     )
     $('#datePicker').datepicker(
       onSelect:(dateText, inst)->
-        pubsub.trigger "UPDATE_TASK_LIST", { dateText:dateText, date:$('#datePicker').datepicker "getDate" }
+        pubsub.trigger "UPDATE_LIST", { dateText:dateText, date:$('#datePicker').datepicker "getDate" }
       onClose:(dateText, inst)->
         if !dateText or dateText.length is 0
-          pubsub.trigger "UPDATE_TASK_LIST" # publish so that task list gets refreshed with no date filter
+          pubsub.trigger "UPDATE_LIST" # publish so that task list gets refreshed with no date filter
     )
     $('#newTaskBtn').on "click", ->pubsub.trigger "SHOW_TASK_EDITOR"
-    $('#showAllLink').on "click", ->pubsub.trigger "UPDATE_TASK_LIST"
+    $('#showAllLink').on "click", ->pubsub.trigger "UPDATE_LIST"
     taskList.load()
-    pubsub.trigger "UPDATE_TASK_LIST"
+    pubsub.trigger "UPDATE_LIST"
 )

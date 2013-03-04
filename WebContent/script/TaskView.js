@@ -33,7 +33,7 @@
           anchor = $(document.createElement("a")).prop({
             href: "javascript:void(0)"
           }).text(tag).click(function(evt) {
-            return pubsub.trigger("UPDATE_TASK_LIST", {
+            return pubsub.trigger("UPDATE_LIST", {
               tag: tag
             });
           });
@@ -49,7 +49,7 @@
           this.model.destroy();
         }
       },
-      destroy: function() {
+      remove: function() {
         this.stopListening(this.model);
         Backbone.View.prototype.remove.call(this);
       }

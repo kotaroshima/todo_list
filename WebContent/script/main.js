@@ -46,17 +46,19 @@ ToDo list application that uses localStorage
     shim: shim
   });
 
-  define(['jQueryUI', 'Underscore', 'TaskCollection', 'TaskListView', 'EditTaskView'], function($, _, TaskCollection, TaskListView, EditTaskView) {
+  define(['jQueryUI', 'Underscore', 'TaskCollection', 'ListView', 'TaskView', 'EditTaskView'], function($, _, TaskCollection, ListView, TaskView, EditTaskView) {
     var pubsub, taskList;
     pubsub = window.pubsub = _.extend({}, Backbone.Events);
     taskList = new TaskCollection();
     new EditTaskView({
       collection: taskList
     });
-    new TaskListView({
+    new ListView({
+      el: "#taskListView",
+      itemClass: TaskView,
       collection: taskList
     });
-    pubsub.on("UPDATE_TASK_LIST", function(options) {
+    pubsub.on("UPDATE_LIST", function(options) {
       var hasFilter, title;
       hasFilter = false;
       if (options) {
@@ -79,14 +81,14 @@ ToDo list application that uses localStorage
     });
     $('#datePicker').datepicker({
       onSelect: function(dateText, inst) {
-        return pubsub.trigger("UPDATE_TASK_LIST", {
+        return pubsub.trigger("UPDATE_LIST", {
           dateText: dateText,
           date: $('#datePicker').datepicker("getDate")
         });
       },
       onClose: function(dateText, inst) {
         if (!dateText || dateText.length === 0) {
-          return pubsub.trigger("UPDATE_TASK_LIST");
+          return pubsub.trigger("UPDATE_LIST");
         }
       }
     });
@@ -94,10 +96,10 @@ ToDo list application that uses localStorage
       return pubsub.trigger("SHOW_TASK_EDITOR");
     });
     $('#showAllLink').on("click", function() {
-      return pubsub.trigger("UPDATE_TASK_LIST");
+      return pubsub.trigger("UPDATE_LIST");
     });
     taskList.load();
-    return pubsub.trigger("UPDATE_TASK_LIST");
+    return pubsub.trigger("UPDATE_LIST");
   });
 
 }).call(this);

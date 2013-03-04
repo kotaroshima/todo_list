@@ -62,7 +62,7 @@
         this._model = null;
         $(this.el).dialog('close');
       },
-      destroy: function() {
+      remove: function() {
         pubsub.off("SHOW_TASK_EDITOR", this.show);
         Backbone.View.prototype.remove.call(this);
       }
