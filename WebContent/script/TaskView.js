@@ -23,8 +23,8 @@
           hours: d.getHours(),
           minutes: d.getMinutes()
         });
-        $(this.el).html(this.template(attrs));
-        tagContainer = $(this.el).find(".tagContainer");
+        this.$el.html(this.template(attrs));
+        tagContainer = this.$el.find(".tagContainer");
         _.each(attrs["tags"], function(tag, idx) {
           var anchor;
           if (idx > 0) {

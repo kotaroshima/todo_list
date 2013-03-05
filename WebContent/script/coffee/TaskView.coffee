@@ -18,10 +18,10 @@ define(
         attrs = @model.attributes
         d = new Date attrs["createdAt"]
         attrs["formattedTime"] = _.template "<%=month%>/<%=day%>/<%=year%> <%=hours%>:<%=minutes%>", { year:d.getFullYear(), month:d.getMonth()+1, day:d.getDate(), hours:d.getHours(), minutes:d.getMinutes() }
-        $(@el).html @template attrs
+        @.$el.html @template attrs
 
         # append tag nodes
-        tagContainer = $(@el).find ".tagContainer"
+        tagContainer = @.$el.find ".tagContainer"
         _.each(
           attrs["tags"],
           (tag, idx) ->

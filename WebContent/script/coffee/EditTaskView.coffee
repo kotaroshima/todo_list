@@ -26,7 +26,7 @@ define(
           ,
           ""
         )
-        $(@el).html @template attrs
+        @.$el.html @template attrs
         @
 
       show:(model)->
@@ -59,12 +59,12 @@ define(
         task.save()
   
         @_model = null
-        $(@el).dialog 'close'
+        @.$el.dialog 'close'
         return
       
       onCancelButtonClicked:->
         @_model = null
-        $(@el).dialog 'close'
+        @.$el.dialog 'close'
         return
   
       remove:->

@@ -24,7 +24,7 @@
           memo += tag;
           return memo;
         }, "");
-        $(this.el).html(this.template(attrs));
+        this.$el.html(this.template(attrs));
         return this;
       },
       show: function(model) {
@@ -56,11 +56,11 @@
         }
         task.save();
         this._model = null;
-        $(this.el).dialog('close');
+        this.$el.dialog('close');
       },
       onCancelButtonClicked: function() {
         this._model = null;
-        $(this.el).dialog('close');
+        this.$el.dialog('close');
       },
       remove: function() {
         pubsub.off("SHOW_TASK_EDITOR", this.show);

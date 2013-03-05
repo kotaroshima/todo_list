@@ -12,7 +12,7 @@ define(
         @_views = []
 
         # make the list draggable
-        $(@el).sortable
+        @.$el.sortable
           start:(event, ui)->
             ui.item.startIndex = ui.item.index()
             return
@@ -31,12 +31,12 @@ define(
         if models.length > 0
           _.each models, @addChild, @
         else
-          $(@el).html "No Items" # TODO : i18n
+          @.$el.html "No Items" # TODO : i18n
         @
 
       addChild:(model)->
         view = new @itemClass model: model
-        $(@el).append view.render().$el
+        @.$el.append view.render().$el
         @_views.push view
         return
 

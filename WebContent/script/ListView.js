@@ -12,7 +12,7 @@
         this.collection.on("add remove reset", this.render, this);
         pubsub.on("UPDATE_LIST", this.render, this);
         this._views = [];
-        $(this.el).sortable({
+        this.$el.sortable({
           start: function(event, ui) {
             ui.item.startIndex = ui.item.index();
           },
@@ -35,7 +35,7 @@
         if (models.length > 0) {
           _.each(models, this.addChild, this);
         } else {
-          $(this.el).html("No Items");
+          this.$el.html("No Items");
         }
         return this;
       },
@@ -44,7 +44,7 @@
         view = new this.itemClass({
           model: model
         });
-        $(this.el).append(view.render().$el);
+        this.$el.append(view.render().$el);
         this._views.push(view);
       },
       clearChildren: function() {
