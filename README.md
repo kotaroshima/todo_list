@@ -1,6 +1,7 @@
 TODO List App
 ======================
-A client-side Javascript application for managing TODO tasks. It allows users to add/edit/remove tasks.
+A client-side Javascript application for managing TODO tasks.
+It allows users to add/edit/remove/reorder(with drag & drop) tasks.
 * Supported browsers: FireFox, Google Chrome
 * Additional features:
  * Tags
@@ -15,6 +16,7 @@ Libraries Used
 --------
 * [jQuery](http://jquery.com/)
 * [jQuery UI](http://jqueryui.com/)
+* [jQuery UI Touch Punch](http://touchpunch.furf.com//)
 * [Underscore.js](http://underscorejs.org/)
 * [Backbone.js](http://backbonejs.org/)
 * [QUnit](http://qunitjs.com/)

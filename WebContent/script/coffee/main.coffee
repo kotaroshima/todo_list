@@ -6,6 +6,7 @@ paths =
   text: ['http://cdnjs.cloudflare.com/ajax/libs/require-text/2.0.3/text']
   jQuery: ['http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min']
   jQueryUI: ['http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min']
+  jQueryUITouchPunch: ['http://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min']
   Underscore: ['http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min']
   Backbone: ['http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.9/backbone-min']
   'Backbone.localStorage': ['http://cdnjs.cloudflare.com/ajax/libs/backbone-localstorage.js/1.0/backbone.localStorage-min']
@@ -17,6 +18,9 @@ shim =
     exports: '$'
   jQueryUI:
     deps: ['jQuery']
+    exports: '$'
+  jQueryUITouchPunch:
+    deps: ['jQuery', 'jQueryUI']
     exports: '$'
   Underscore:
     exports: '_'

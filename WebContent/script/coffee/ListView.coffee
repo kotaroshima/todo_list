@@ -1,5 +1,5 @@
 define(
-  ['jQuery', 'Underscore', 'Backbone'],
+  ['jQueryUITouchPunch', 'Underscore', 'Backbone'],
   ($, _, Backbone)->
 
     Backbone.View.extend
@@ -10,6 +10,19 @@ define(
         @collection.on "add remove reset", @render, @
         pubsub.on "UPDATE_LIST", @render, @
         @_views = []
+
+        # make the list draggable
+        $(@el).sortable
+          start:(event, ui)->
+            ui.item.startIndex = ui.item.index()
+            return
+          stop:(event, ui)=>
+            collection = @collection
+            model = collection.at ui.item.startIndex
+            newIndex = ui.item.index()
+            collection.remove model
+            collection.add model, { at: newIndex }
+            return
         return
 
       render:(options)->
