@@ -82,29 +82,29 @@ ToDo list application that uses localStorage
         $('#datePicker').val("");
         title = "All Tasks";
       }
-      return $("#taskListTitle").text(title);
+      $("#taskListTitle").text(title);
     });
     $('#datePicker').datepicker({
       onSelect: function(dateText, inst) {
-        return pubsub.trigger("UPDATE_LIST", {
+        pubsub.trigger("UPDATE_LIST", {
           dateText: dateText,
           date: $('#datePicker').datepicker("getDate")
         });
       },
       onClose: function(dateText, inst) {
         if (!dateText || dateText.length === 0) {
-          return pubsub.trigger("UPDATE_LIST");
+          pubsub.trigger("UPDATE_LIST");
         }
       }
     });
     $('#newTaskBtn').on("click", function() {
-      return pubsub.trigger("SHOW_TASK_EDITOR");
+      pubsub.trigger("SHOW_TASK_EDITOR");
     });
     $('#showAllLink').on("click", function() {
-      return pubsub.trigger("UPDATE_LIST");
+      pubsub.trigger("UPDATE_LIST");
     });
     taskList.load();
-    return pubsub.trigger("UPDATE_LIST");
+    pubsub.trigger("UPDATE_LIST");
   });
 
 }).call(this);

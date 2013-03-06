@@ -5,13 +5,30 @@
     return Backbone.Model.extend({
       isCreatedAt: function(date) {
         var d;
+        if (!date) {
+          return true;
+        }
         d = new Date(this.get("createdAt"));
         return d.getFullYear() === date.getFullYear() && d.getMonth() === date.getMonth() && d.getDate() === date.getDate();
       },
       hasTag: function(tag) {
         var ret, tags;
+        if (!tag) {
+          return true;
+        }
         tags = this.get("tags");
         return ret = tags ? tags.indexOf(tag) >= 0 : false;
+      },
+      filter: function(options) {
+        var ret;
+        if (!options) {
+          return true;
+        }
+        ret = this.isCreatedAt(options.date);
+        if (!ret) {
+          return false;
+        }
+        return this.hasTag(options.tag);
       }
     });
   });

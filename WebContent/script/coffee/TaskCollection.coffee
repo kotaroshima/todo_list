@@ -19,26 +19,4 @@ define(
           )
         @reset models
         return
-
-      filter:(options)->
-        models = @models
-
-        # filter by tag/date
-        if options
-          # currently, only particular date is supported,
-          # but we may enhance it so that we can:
-          # - specify both date and time
-          # - specify before/after/between the specified date/time
-          targetDate = options.date
-          if targetDate
-            models = models.filter(
-              (model)->
-                model.isCreatedAt targetDate
-            )
-          else if options.tag
-            models = models.filter(
-              (model)->
-                model.hasTag options.tag
-            )
-        models
 )

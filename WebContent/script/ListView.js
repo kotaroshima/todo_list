@@ -10,7 +10,7 @@
           this.itemClass = options.itemClass;
         }
         this.collection.on("add remove reset", this.render, this);
-        pubsub.on("UPDATE_LIST", this.render, this);
+        pubsub.on("UPDATE_LIST", this.filterChildren, this);
         this._views = [];
         this.$el.sortable({
           start: function(event, ui) {
@@ -30,7 +30,7 @@
       },
       render: function(options) {
         var models;
-        models = this.collection.filter(options);
+        models = this.collection.models;
         this.clearChildren();
         if (models.length > 0) {
           _.each(models, this.addChild, this);
@@ -57,9 +57,19 @@
         this._views[index].remove();
         this._views.splice(index, 1);
       },
+      filterChildren: function(options) {
+        var filtered;
+        filtered = _.filter(this._views, function(view) {
+          if (view.model.filter(options)) {
+            return view.$el.show();
+          } else {
+            return view.$el.hide();
+          }
+        });
+      },
       remove: function() {
         this.collection.off("add remove reset", this.render);
-        pubsub.off("UPDATE_LIST", this.render, this);
+        pubsub.off("UPDATE_LIST", this.filterChildren, this);
         Backbone.View.prototype.remove.call(this);
       }
     });

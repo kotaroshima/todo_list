@@ -16,23 +16,6 @@
           });
         }
         this.reset(models);
-      },
-      filter: function(options) {
-        var models, targetDate;
-        models = this.models;
-        if (options) {
-          targetDate = options.date;
-          if (targetDate) {
-            models = models.filter(function(model) {
-              return model.isCreatedAt(targetDate);
-            });
-          } else if (options.tag) {
-            models = models.filter(function(model) {
-              return model.hasTag(options.tag);
-            });
-          }
-        }
-        return models;
       }
     });
   });

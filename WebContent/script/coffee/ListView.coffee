@@ -8,7 +8,7 @@ define(
       initialize:(options)->
         @itemClass = options.itemClass if options.itemClass
         @collection.on "add remove reset", @render, @
-        pubsub.on "UPDATE_LIST", @render, @
+        pubsub.on "UPDATE_LIST", @filterChildren, @
         @_views = []
 
         # make the list draggable
@@ -26,7 +26,7 @@ define(
         return
 
       render:(options)->
-        models = @collection.filter options
+        models = @collection.models
         @clearChildren()
         if models.length > 0
           _.each models, @addChild, @
@@ -50,9 +50,17 @@ define(
         @_views.splice index,1
         return
 
+      filterChildren:(options)->
+        filtered = _.filter @_views, (view)->
+          if view.model.filter options
+            view.$el.show()
+          else
+            view.$el.hide()
+        return
+
       remove:->
         @collection.off "add remove reset", @render
-        pubsub.off "UPDATE_LIST", @render, @
+        pubsub.off "UPDATE_LIST", @filterChildren, @
         Backbone.View::remove.call @
         return
 )
