@@ -6,13 +6,14 @@ define(
       itemClass: Backbone.View
 
       initialize:(options)->
+        Backbone.View::initialize @, arguments
         @itemClass = options.itemClass if options.itemClass
         @collection.on "add remove reset", @render, @
         pubsub.on "UPDATE_LIST", @filterChildren, @
         @_views = []
 
         # make the list draggable
-        @.$el.sortable
+        @$el.sortable
           start:(event, ui)->
             ui.item.startIndex = ui.item.index()
             return
@@ -31,12 +32,12 @@ define(
         if models.length > 0
           _.each models, @addChild, @
         else
-          @.$el.html "No Items" # TODO : i18n
+          @$el.html "No Items" # TODO : i18n
         @
 
       addChild:(model)->
         view = new @itemClass model: model
-        @.$el.append view.render().$el
+        @$el.append view.render().$el
         @_views.push view
         return
 
@@ -51,11 +52,12 @@ define(
         return
 
       filterChildren:(options)->
-        filtered = _.filter @_views, (view)->
+        _.filter @_views, (view)->
           if view.model.filter options
             view.$el.show()
           else
             view.$el.hide()
+          return
         return
 
       remove:->

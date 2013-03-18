@@ -18,18 +18,20 @@ define(
         attrs = @model.attributes
         d = new Date attrs["createdAt"]
         attrs["formattedTime"] = _.template "<%=month%>/<%=day%>/<%=year%> <%=hours%>:<%=minutes%>", { year:d.getFullYear(), month:d.getMonth()+1, day:d.getDate(), hours:d.getHours(), minutes:d.getMinutes() }
-        @.$el.html @template attrs
+        @$el.html @template attrs
 
         # append tag nodes
-        tagContainer = @.$el.find ".tagContainer"
+        tagContainer = @$el.find ".tagContainer"
         _.each(
           attrs["tags"],
-          (tag, idx) ->
+          (tag, idx) =>
             if idx > 0 then tagContainer.append "&nbsp;"
-            anchor = $(document.createElement("a")).prop(href:"javascript:void(0)").text(tag).click((evt)->
+            anchor = $(document.createElement("a")).prop(href:"javascript:void(0)").text(tag).click((evt)=>
               pubsub.trigger "UPDATE_LIST", { tag:tag }
+              return
             )
             tagContainer.append anchor
+            return
         )
         @
 

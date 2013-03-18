@@ -13,7 +13,8 @@
         this.listenTo(this.model, "destroy", this.remove);
       },
       render: function(model, value, options) {
-        var attrs, d, tagContainer;
+        var attrs, d, tagContainer,
+          _this = this;
         attrs = this.model.attributes;
         d = new Date(attrs["createdAt"]);
         attrs["formattedTime"] = _.template("<%=month%>/<%=day%>/<%=year%> <%=hours%>:<%=minutes%>", {
@@ -33,11 +34,11 @@
           anchor = $(document.createElement("a")).prop({
             href: "javascript:void(0)"
           }).text(tag).click(function(evt) {
-            return pubsub.trigger("UPDATE_LIST", {
+            pubsub.trigger("UPDATE_LIST", {
               tag: tag
             });
           });
-          return tagContainer.append(anchor);
+          tagContainer.append(anchor);
         });
         return this;
       },

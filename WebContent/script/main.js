@@ -51,60 +51,11 @@ ToDo list application that uses localStorage
     shim: shim
   });
 
-  define(['jQueryUI', 'Underscore', 'TaskCollection', 'ListView', 'TaskView', 'EditTaskView'], function($, _, TaskCollection, ListView, TaskView, EditTaskView) {
-    var pubsub, taskList;
-    pubsub = window.pubsub = _.extend({}, Backbone.Events);
-    taskList = new TaskCollection();
-    new EditTaskView({
-      collection: taskList
+  define(['MainView'], function(MainView) {
+    window.pubsub = _.extend({}, Backbone.Events);
+    new MainView({
+      el: "#pageContainer"
     });
-    new ListView({
-      el: "#taskListView",
-      itemClass: TaskView,
-      collection: taskList
-    });
-    pubsub.on("UPDATE_LIST", function(options) {
-      var hasFilter, title;
-      hasFilter = false;
-      if (options) {
-        if (options.tag) {
-          title = _.template("Tasks with tag '<%= tag %>'", options);
-          hasFilter = true;
-        } else if (options.dateText) {
-          title = _.template("Tasks created at '<%= dateText %>'", options);
-          hasFilter = true;
-        }
-      }
-      if (hasFilter) {
-        $('#showAllLink').css("display", "block");
-      } else {
-        $('#showAllLink').css("display", "none");
-        $('#datePicker').val("");
-        title = "All Tasks";
-      }
-      $("#taskListTitle").text(title);
-    });
-    $('#datePicker').datepicker({
-      onSelect: function(dateText, inst) {
-        pubsub.trigger("UPDATE_LIST", {
-          dateText: dateText,
-          date: $('#datePicker').datepicker("getDate")
-        });
-      },
-      onClose: function(dateText, inst) {
-        if (!dateText || dateText.length === 0) {
-          pubsub.trigger("UPDATE_LIST");
-        }
-      }
-    });
-    $('#newTaskBtn').on("click", function() {
-      pubsub.trigger("SHOW_TASK_EDITOR");
-    });
-    $('#showAllLink').on("click", function() {
-      pubsub.trigger("UPDATE_LIST");
-    });
-    taskList.load();
-    pubsub.trigger("UPDATE_LIST");
   });
 
 }).call(this);

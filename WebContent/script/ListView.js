@@ -6,6 +6,7 @@
       itemClass: Backbone.View,
       initialize: function(options) {
         var _this = this;
+        Backbone.View.prototype.initialize(this, arguments);
         if (options.itemClass) {
           this.itemClass = options.itemClass;
         }
@@ -58,12 +59,11 @@
         this._views.splice(index, 1);
       },
       filterChildren: function(options) {
-        var filtered;
-        filtered = _.filter(this._views, function(view) {
+        _.filter(this._views, function(view) {
           if (view.model.filter(options)) {
-            return view.$el.show();
+            view.$el.show();
           } else {
-            return view.$el.hide();
+            view.$el.hide();
           }
         });
       },

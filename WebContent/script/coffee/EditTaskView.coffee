@@ -1,10 +1,8 @@
 define(
-  ['jQuery', 'Underscore', 'Backbone.localStorage', 'TaskModel', 'text!template/EditTaskView.html'],
+  ['jQuery', 'Underscore', 'Backbone', 'TaskModel', 'text!template/EditTaskView.html'],
   ($, _, Backbone, TaskModel, viewTemplate)->
 
     Backbone.View.extend
-      el: "#dialogContainer"
-
       template: _.template viewTemplate
 
       events:
@@ -12,7 +10,9 @@ define(
         "click #cancelTaskBtn": "onCancelButtonClicked"
 
       initialize:->
+        Backbone.View::initialize @, arguments
         pubsub.on "SHOW_TASK_EDITOR", @show, @
+        return
 
       render:->
         attrs = if @_model then @_model.attributes else { text:"" }
@@ -26,7 +26,7 @@ define(
           ,
           ""
         )
-        @.$el.html @template attrs
+        @$el.html @template attrs
         @
 
       show:(model)->
@@ -59,16 +59,16 @@ define(
         task.save()
   
         @_model = null
-        @.$el.dialog 'close'
+        @$el.dialog 'close'
         return
       
       onCancelButtonClicked:->
         @_model = null
-        @.$el.dialog 'close'
+        @$el.dialog 'close'
         return
   
       remove:->
-        pubsub.off "SHOW_TASK_EDITOR", @show
+        pubsub.off "SHOW_TASK_EDITOR", @show, @
         Backbone.View::remove.call @
         return
 )

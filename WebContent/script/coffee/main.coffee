@@ -34,49 +34,9 @@ shim =
 requirejs.config paths: paths, shim: shim
 
 define(
-  ['jQueryUI', 'Underscore', 'TaskCollection', 'ListView', 'TaskView', 'EditTaskView'],
-  ($, _, TaskCollection, ListView, TaskView, EditTaskView)->
-    pubsub = window.pubsub = _.extend {}, Backbone.Events
-    taskList = new TaskCollection()
-    new EditTaskView collection: taskList
-    new ListView el: "#taskListView", itemClass: TaskView, collection: taskList
-
-    pubsub.on(
-      "UPDATE_LIST",
-      (options)->
-        hasFilter = false
-        if options
-          if options.tag
-            title = _.template "Tasks with tag '<%= tag %>'", options
-            hasFilter = true
-          else if options.dateText
-            title = _.template "Tasks created at '<%= dateText %>'", options
-            hasFilter = true
-        if hasFilter
-          $('#showAllLink').css "display", "block"
-        else
-          $('#showAllLink').css "display", "none"
-          $('#datePicker').val ""
-          title = "All Tasks"
-        $("#taskListTitle").text title
-        return
-    )
-    $('#datePicker').datepicker(
-      onSelect:(dateText, inst)->
-        pubsub.trigger "UPDATE_LIST", { dateText:dateText, date:$('#datePicker').datepicker "getDate" }
-        return
-      onClose:(dateText, inst)->
-        if !dateText or dateText.length is 0
-          pubsub.trigger "UPDATE_LIST" # publish so that task list gets refreshed with no date filter
-          return
-    )
-    $('#newTaskBtn').on "click", ->
-      pubsub.trigger "SHOW_TASK_EDITOR"
-      return
-    $('#showAllLink').on "click", ->
-      pubsub.trigger "UPDATE_LIST"
-      return
-    taskList.load()
-    pubsub.trigger "UPDATE_LIST"
+  ['MainView'],
+  (MainView)->
+    window.pubsub = _.extend({}, Backbone.Events);
+    new MainView el: "#pageContainer"
     return
 )
