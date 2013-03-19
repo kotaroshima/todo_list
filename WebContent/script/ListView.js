@@ -11,7 +11,7 @@
           this.itemClass = options.itemClass;
         }
         this.collection.on("add remove reset", this.render, this);
-        pubsub.on("UPDATE_LIST", this.filterChildren, this);
+        Backbone.on("UPDATE_LIST", this.filterChildren, this);
         this._views = [];
         this.$el.sortable({
           start: function(event, ui) {
@@ -69,7 +69,7 @@
       },
       remove: function() {
         this.collection.off("add remove reset", this.render);
-        pubsub.off("UPDATE_LIST", this.filterChildren, this);
+        Backbone.off("UPDATE_LIST", this.filterChildren, this);
         Backbone.View.prototype.remove.call(this);
       }
     });

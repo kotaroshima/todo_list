@@ -11,7 +11,7 @@ define(
 
       initialize:->
         Backbone.View::initialize @, arguments
-        pubsub.on "SHOW_TASK_EDITOR", @show, @
+        Backbone.on "SHOW_TASK_EDITOR", @show, @
         return
 
       render:->
@@ -57,7 +57,7 @@ define(
           task = new TaskModel prop
           @collection.add task
         task.save()
-  
+
         @_model = null
         @$el.dialog 'close'
         return
@@ -68,7 +68,7 @@ define(
         return
   
       remove:->
-        pubsub.off "SHOW_TASK_EDITOR", @show, @
+        Backbone.off "SHOW_TASK_EDITOR", @show, @
         Backbone.View::remove.call @
         return
 )

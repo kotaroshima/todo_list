@@ -13,17 +13,17 @@
           _this = this;
         Backbone.View.prototype.initialize.apply(this, arguments);
         this.render();
-        pubsub.on("UPDATE_LIST", this.onUpdateList, this);
+        Backbone.on("UPDATE_LIST", this.onUpdateList, this);
         $('#datePicker').datepicker({
           onSelect: function(dateText, inst) {
-            pubsub.trigger("UPDATE_LIST", {
+            Backbone.trigger("UPDATE_LIST", {
               dateText: dateText,
               date: $('#datePicker').datepicker("getDate")
             });
           },
           onClose: function(dateText, inst) {
             if (!dateText || dateText.length === 0) {
-              pubsub.trigger("UPDATE_LIST");
+              Backbone.trigger("UPDATE_LIST");
             }
           }
         });
@@ -38,17 +38,17 @@
           collection: taskList
         });
         taskList.load();
-        pubsub.trigger("UPDATE_LIST");
+        Backbone.trigger("UPDATE_LIST");
       },
       render: function(model, value, options) {
         this.$el.html(this.template());
         return this;
       },
       onNewButtonClicked: function() {
-        pubsub.trigger("SHOW_TASK_EDITOR");
+        Backbone.trigger("SHOW_TASK_EDITOR");
       },
       onShowAllLinkClicked: function() {
-        pubsub.trigger("UPDATE_LIST");
+        Backbone.trigger("UPDATE_LIST");
       },
       onUpdateList: function(options) {
         var hasFilter, title;
@@ -72,7 +72,7 @@
         $("#taskListTitle").text(title);
       },
       remove: function() {
-        pubsub.off("UPDATE_LIST", this.onUpdateList, this);
+        Backbone.off("UPDATE_LIST", this.onUpdateList, this);
         Backbone.View.prototype.remove.call(this);
       }
     });

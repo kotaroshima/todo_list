@@ -9,7 +9,7 @@ define(
         Backbone.View::initialize @, arguments
         @itemClass = options.itemClass if options.itemClass
         @collection.on "add remove reset", @render, @
-        pubsub.on "UPDATE_LIST", @filterChildren, @
+        Backbone.on "UPDATE_LIST", @filterChildren, @
         @_views = []
 
         # make the list draggable
@@ -62,7 +62,7 @@ define(
 
       remove:->
         @collection.off "add remove reset", @render
-        pubsub.off "UPDATE_LIST", @filterChildren, @
+        Backbone.off "UPDATE_LIST", @filterChildren, @
         Backbone.View::remove.call @
         return
 )

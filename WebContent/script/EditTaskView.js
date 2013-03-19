@@ -10,7 +10,7 @@
       },
       initialize: function() {
         Backbone.View.prototype.initialize(this, arguments);
-        pubsub.on("SHOW_TASK_EDITOR", this.show, this);
+        Backbone.on("SHOW_TASK_EDITOR", this.show, this);
       },
       render: function() {
         var attrs;
@@ -63,7 +63,7 @@
         this.$el.dialog('close');
       },
       remove: function() {
-        pubsub.off("SHOW_TASK_EDITOR", this.show, this);
+        Backbone.off("SHOW_TASK_EDITOR", this.show, this);
         Backbone.View.prototype.remove.call(this);
       }
     });

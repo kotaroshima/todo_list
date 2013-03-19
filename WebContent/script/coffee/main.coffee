@@ -33,10 +33,9 @@ shim =
 
 requirejs.config paths: paths, shim: shim
 
-define(
+require(
   ['MainView'],
   (MainView)->
-    window.pubsub = _.extend({}, Backbone.Events);
     new MainView el: "#pageContainer"
     return
 )

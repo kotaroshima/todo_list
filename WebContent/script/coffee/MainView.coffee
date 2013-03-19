@@ -14,15 +14,15 @@ define(
         Backbone.View::initialize.apply @, arguments
         @render()
 
-        pubsub.on "UPDATE_LIST", @onUpdateList, @
+        Backbone.on "UPDATE_LIST", @onUpdateList, @
 
         $('#datePicker').datepicker(
           onSelect:(dateText, inst)=>
-            pubsub.trigger "UPDATE_LIST", { dateText:dateText, date:$('#datePicker').datepicker "getDate" }
+            Backbone.trigger "UPDATE_LIST", { dateText:dateText, date:$('#datePicker').datepicker "getDate" }
             return
           onClose:(dateText, inst)=>
             if !dateText or dateText.length is 0
-              pubsub.trigger "UPDATE_LIST" # publish so that task list gets refreshed with no date filter
+              Backbone.trigger "UPDATE_LIST" # publish so that task list gets refreshed with no date filter
               return
         )
 
@@ -31,7 +31,7 @@ define(
         new ListView el: "#taskListView", itemClass: TaskView, collection: taskList
 
         taskList.load()
-        pubsub.trigger "UPDATE_LIST"
+        Backbone.trigger "UPDATE_LIST"
         return
 
       render:(model, value, options) ->
@@ -39,11 +39,11 @@ define(
         @
 
       onNewButtonClicked:->
-        pubsub.trigger "SHOW_TASK_EDITOR"
+        Backbone.trigger "SHOW_TASK_EDITOR"
         return
 
       onShowAllLinkClicked:->
-        pubsub.trigger "UPDATE_LIST"
+        Backbone.trigger "UPDATE_LIST"
         return
 
       onUpdateList:(options)->
@@ -65,7 +65,7 @@ define(
         return
 
       remove:->
-        pubsub.off "UPDATE_LIST", @onUpdateList, @
+        Backbone.off "UPDATE_LIST", @onUpdateList, @
         Backbone.View::remove.call @
         return
 )

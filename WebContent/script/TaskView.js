@@ -34,7 +34,7 @@
           anchor = $(document.createElement("a")).prop({
             href: "javascript:void(0)"
           }).text(tag).click(function(evt) {
-            pubsub.trigger("UPDATE_LIST", {
+            Backbone.trigger("UPDATE_LIST", {
               tag: tag
             });
           });
@@ -43,7 +43,7 @@
         return this;
       },
       onEditButtonClicked: function() {
-        pubsub.trigger("SHOW_TASK_EDITOR", this.model);
+        Backbone.trigger("SHOW_TASK_EDITOR", this.model);
       },
       onDeleteButtonClicked: function() {
         if (confirm(_.template("Are you sure you want to delete '<%=text%>'?", this.model.attributes))) {

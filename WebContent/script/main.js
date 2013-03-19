@@ -15,7 +15,7 @@ ToDo list application that uses localStorage
     jQueryUITouchPunch: ['http://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min'],
     Underscore: ['http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min'],
     Backbone: ['http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.9/backbone-min'],
-    'Backbone.localStorage': ['http://cdnjs.cloudflare.com/ajax/libs/backbone-localstorage.js/1.0/backbone.localStorage-min']
+    'Backbone.localStorage': ['lib/backbone.localStorage']
   };
 
   shim = {
@@ -51,8 +51,7 @@ ToDo list application that uses localStorage
     shim: shim
   });
 
-  define(['MainView'], function(MainView) {
-    window.pubsub = _.extend({}, Backbone.Events);
+  require(['MainView'], function(MainView) {
     new MainView({
       el: "#pageContainer"
     });
