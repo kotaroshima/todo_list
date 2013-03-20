@@ -1,7 +1,7 @@
 define(
-  ['jQueryUI', 'Underscore', 'Backbone.localStorage',
-   'TaskCollection', 'ListView', 'TaskView', 'EditTaskView', 'text!template/MainView.html'],
-  ($, _, Backbone, TaskCollection, ListView, TaskView, EditTaskView, viewTemplate) ->
+  ['jQueryUI', 'Underscore', 'Backbone', 'TaskCollection',
+   'ListView', 'plugins/Sortable', 'TaskView', 'EditTaskView', 'text!template/MainView.html'],
+  ($, _, Backbone, TaskCollection, ListView, Sortable, TaskView, EditTaskView, viewTemplate) ->
 
     Backbone.View.extend
       template: _.template viewTemplate
@@ -28,7 +28,7 @@ define(
 
         taskList = new TaskCollection()
         new EditTaskView el: "#dialogContainer", collection: taskList
-        new ListView el: "#taskListView", itemClass: TaskView, collection: taskList
+        new ListView el: "#taskListView", itemClass: TaskView, collection: taskList, mixins: [Sortable]
 
         taskList.load()
         Backbone.trigger "UPDATE_LIST"

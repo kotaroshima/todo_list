@@ -10,7 +10,7 @@ define(
         "click #cancelTaskBtn": "onCancelButtonClicked"
 
       initialize:->
-        Backbone.View::initialize @, arguments
+        Backbone.View::initialize.apply @, arguments
         Backbone.on "SHOW_TASK_EDITOR", @show, @
         return
 

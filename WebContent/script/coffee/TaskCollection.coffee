@@ -1,5 +1,5 @@
 define(
-  ['Underscore', 'Backbone.localStorage', 'TaskModel'],
+  ['Underscore', 'BackboneLocalStorage', 'TaskModel'],
   (_, Backbone, TaskModel)->
 
     Backbone.Collection.extend

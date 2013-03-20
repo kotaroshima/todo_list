@@ -1,29 +1,16 @@
 define(
-  ['jQueryUITouchPunch', 'Underscore', 'Backbone'],
-  ($, _, Backbone)->
+  ['jQuery', 'Underscore', 'Backpack'],
+  ($, _, Backpack)->
 
-    Backbone.View.extend
+    Backpack.View.extend
       itemClass: Backbone.View
 
       initialize:(options)->
-        Backbone.View::initialize @, arguments
+        Backpack.View::initialize.apply @, arguments
         @itemClass = options.itemClass if options.itemClass
         @collection.on "add remove reset", @render, @
         Backbone.on "UPDATE_LIST", @filterChildren, @
         @_views = []
-
-        # make the list draggable
-        @$el.sortable
-          start:(event, ui)->
-            ui.item.startIndex = ui.item.index()
-            return
-          stop:(event, ui)=>
-            collection = @collection
-            model = collection.at ui.item.startIndex
-            newIndex = ui.item.index()
-            collection.remove model
-            collection.add model, { at: newIndex }
-            return
         return
 
       render:(options)->
@@ -63,6 +50,6 @@ define(
       remove:->
         @collection.off "add remove reset", @render
         Backbone.off "UPDATE_LIST", @filterChildren, @
-        Backbone.View::remove.call @
+        Backpack.View::remove.call @
         return
 )

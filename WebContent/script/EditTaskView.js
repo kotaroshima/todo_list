@@ -9,7 +9,7 @@
         "click #cancelTaskBtn": "onCancelButtonClicked"
       },
       initialize: function() {
-        Backbone.View.prototype.initialize(this, arguments);
+        Backbone.View.prototype.initialize.apply(this, arguments);
         Backbone.on("SHOW_TASK_EDITOR", this.show, this);
       },
       render: function() {
