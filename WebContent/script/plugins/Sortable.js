@@ -4,7 +4,8 @@
   define(['jQueryUITouchPunch'], function($) {
     return {
       setup: function() {
-        if ((typeof options !== "undefined" && options !== null ? options.sortable : void 0) !== false) {
+        var _ref;
+        if (((_ref = this.options) != null ? _ref.sortable : void 0) !== false) {
           this.setSortable(true);
         }
       },
@@ -19,14 +20,14 @@
                 ui.item.startIndex = ui.item.index();
               },
               stop: function(event, ui) {
-                var collection, model, models, newIndex;
+                var collection, model, newIndex;
                 collection = _this.collection;
-                models = collection.toJSON();
-                model = models[ui.item.startIndex];
+                model = collection.at(ui.item.startIndex);
                 newIndex = ui.item.index();
-                models.splice(ui.item.startIndex, 1);
-                models.splice(newIndex, 0, model);
-                collection.update(models);
+                collection.remove(model);
+                collection.add(model, {
+                  at: newIndex
+                });
               }
             });
             this._sortableInit = true;

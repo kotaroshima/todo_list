@@ -36,6 +36,6 @@ requirejs.config paths: paths, shim: shim
 require(
   ['MainView'],
   (MainView)->
-    new MainView el: "#pageContainer"
+    new MainView el: "#pageContainer", subscribers: { UPDATE_LIST: 'onUpdateList' }
     return
 )

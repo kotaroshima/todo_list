@@ -10,7 +10,6 @@
           this.itemClass = options.itemClass;
         }
         this.collection.on("add remove reset", this.render, this);
-        Backbone.on("UPDATE_LIST", this.filterChildren, this);
         this._views = [];
       },
       render: function(options) {
@@ -53,7 +52,6 @@
       },
       remove: function() {
         this.collection.off("add remove reset", this.render);
-        Backbone.off("UPDATE_LIST", this.filterChildren, this);
         Backpack.View.prototype.remove.call(this);
       }
     });

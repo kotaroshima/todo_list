@@ -1,9 +1,9 @@
 define(
-  ['jQueryUI', 'Underscore', 'Backbone', 'TaskCollection',
+  ['jQueryUI', 'Underscore', 'Backpack', 'TaskCollection',
    'ListView', 'plugins/Sortable', 'TaskView', 'EditTaskView', 'text!template/MainView.html'],
-  ($, _, Backbone, TaskCollection, ListView, Sortable, TaskView, EditTaskView, viewTemplate) ->
+  ($, _, Backpack, TaskCollection, ListView, Sortable, TaskView, EditTaskView, viewTemplate) ->
 
-    Backbone.View.extend
+    Backpack.View.extend
       template: _.template viewTemplate
 
       events:
@@ -11,10 +11,8 @@ define(
         "click #showAllLink": "onShowAllLinkClicked"
 
       initialize:(options)->
-        Backbone.View::initialize.apply @, arguments
+        Backpack.View::initialize.apply @, arguments
         @render()
-
-        Backbone.on "UPDATE_LIST", @onUpdateList, @
 
         $('#datePicker').datepicker(
           onSelect:(dateText, inst)=>
@@ -27,8 +25,15 @@ define(
         )
 
         taskList = new TaskCollection()
-        new EditTaskView el: "#dialogContainer", collection: taskList
-        new ListView el: "#taskListView", itemClass: TaskView, collection: taskList, mixins: [Sortable]
+        new EditTaskView el: "#dialogContainer", collection: taskList, subscribers: { SHOW_TASK_EDITOR: 'show' }
+        new ListView(
+          el: "#taskListView",
+          itemClass: TaskView,
+          collection: taskList,
+          mixins: [Sortable],
+          subscribers:
+            UPDATE_LIST: 'filterChildren'
+        )
 
         taskList.load()
         Backbone.trigger "UPDATE_LIST"
@@ -62,10 +67,5 @@ define(
           $('#datePicker').val ""
           title = "All Tasks"
         $("#taskListTitle").text title
-        return
-
-      remove:->
-        Backbone.off "UPDATE_LIST", @onUpdateList, @
-        Backbone.View::remove.call @
         return
 )

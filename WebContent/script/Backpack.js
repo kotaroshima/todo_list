@@ -2,7 +2,7 @@
 (function() {
   var __hasProp = {}.hasOwnProperty;
 
-  define(['jQuery', 'Underscore', 'Backbone'], function($, _, Backbone) {
+  define(['jQuery', 'Underscore', 'Backbone', 'plugins/Subscribable'], function($, _, Backbone, Subscribable) {
     return {
       View: Backbone.View.extend({
         initialize: function(options) {
@@ -10,24 +10,28 @@
             _this = this;
           Backbone.View.prototype.initialize.apply(this, arguments);
           this.teardowns = [];
-          if (mixins = options != null ? options.mixins : void 0) {
-            _.each(mixins, function(mi) {
-              var key, value;
-              for (key in mi) {
-                if (!__hasProp.call(mi, key)) continue;
-                value = mi[key];
-                if (key !== 'setup' && key !== 'teardown') {
-                  _this[key] = value;
-                }
-              }
-              if (mi.setup) {
-                mi.setup.apply(_this);
-              }
-              if (mi.teardown) {
-                _this.teardowns.push(mi.teardown);
-              }
-            });
+          mixins = [Subscribable];
+          if (options != null ? options.mixins : void 0) {
+            mixins = mixins.concat(options.mixins);
           }
+          _.each(mixins, function(mi) {
+            var key, su, td, value;
+            su = mi.setup;
+            td = mi.teardown;
+            for (key in mi) {
+              if (!__hasProp.call(mi, key)) continue;
+              value = mi[key];
+              if (key !== 'setup' && key !== 'teardown') {
+                _this[key] = value;
+              }
+            }
+            if (su) {
+              su.apply(_this);
+            }
+            if (td) {
+              _this.teardowns.push(td);
+            }
+          });
         },
         remove: function() {
           var _this = this;

@@ -4,7 +4,7 @@ define(
   ['jQueryUITouchPunch'],
   ($)->
     setup:->
-      if options?.sortable isnt false
+      if @options?.sortable isnt false
         @setSortable true
       return
   
@@ -20,16 +20,10 @@ define(
               return
             stop:(event, ui)=>
               collection = @collection
-              models = collection.toJSON()
-#              model = collection.at ui.item.startIndex
-              model = models[ui.item.startIndex]
+              model = collection.at ui.item.startIndex
               newIndex = ui.item.index()
-              models.splice ui.item.startIndex, 1
-              models.splice newIndex, 0, model
-#              collection.reset models
-              collection.update models
-#              collection.remove model
-#              collection.add model, { at: newIndex }
+              collection.remove model
+              collection.add model, { at: newIndex }
               return
           @_sortableInit = true
       else

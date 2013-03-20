@@ -1,17 +1,21 @@
 define(
-  ['jQuery', 'Underscore', 'Backbone'],
-  ($, _, Backbone) ->
+  ['jQuery', 'Underscore', 'Backbone', 'plugins/Subscribable'],
+  ($, _, Backbone, Subscribable) ->
     View: Backbone.View.extend
       initialize: (options)->
         Backbone.View::initialize.apply @, arguments
         @teardowns = []
-        if mixins = options?.mixins
-          _.each mixins, (mi)=>
-            for own key, value of mi
-              @[key] = value if key isnt 'setup' and key isnt 'teardown'
-            mi.setup.apply @ if mi.setup
-            @teardowns.push mi.teardown if mi.teardown
-            return
+        mixins = [Subscribable]
+        mixins = mixins.concat options.mixins if options?.mixins
+        _.each mixins, (mi)=>
+          su = mi.setup
+          td = mi.teardown
+          for own key, value of mi
+            if key isnt 'setup' and key isnt 'teardown'
+              @[key] = value
+          su.apply @ if su
+          @teardowns.push td if td
+          return
         return
       remove: ->
         _.each @teardowns, (td)=>

@@ -53,7 +53,10 @@ ToDo list application that uses localStorage
 
   require(['MainView'], function(MainView) {
     new MainView({
-      el: "#pageContainer"
+      el: "#pageContainer",
+      subscribers: {
+        UPDATE_LIST: 'onUpdateList'
+      }
     });
   });
 

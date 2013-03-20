@@ -9,7 +9,6 @@ define(
         Backpack.View::initialize.apply @, arguments
         @itemClass = options.itemClass if options.itemClass
         @collection.on "add remove reset", @render, @
-        Backbone.on "UPDATE_LIST", @filterChildren, @
         @_views = []
         return
 
@@ -49,7 +48,6 @@ define(
 
       remove:->
         @collection.off "add remove reset", @render
-        Backbone.off "UPDATE_LIST", @filterChildren, @
         Backpack.View::remove.call @
         return
 )

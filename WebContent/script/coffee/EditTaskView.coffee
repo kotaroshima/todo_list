@@ -1,18 +1,13 @@
 define(
-  ['jQuery', 'Underscore', 'Backbone', 'TaskModel', 'text!template/EditTaskView.html'],
-  ($, _, Backbone, TaskModel, viewTemplate)->
+  ['jQuery', 'Underscore', 'Backpack', 'TaskModel', 'text!template/EditTaskView.html'],
+  ($, _, Backpack, TaskModel, viewTemplate)->
 
-    Backbone.View.extend
+    Backpack.View.extend
       template: _.template viewTemplate
 
       events:
         "click #saveTaskBtn": "onSaveButtonClicked"
         "click #cancelTaskBtn": "onCancelButtonClicked"
-
-      initialize:->
-        Backbone.View::initialize.apply @, arguments
-        Backbone.on "SHOW_TASK_EDITOR", @show, @
-        return
 
       render:->
         attrs = if @_model then @_model.attributes else { text:"" }
@@ -65,10 +60,5 @@ define(
       onCancelButtonClicked:->
         @_model = null
         @$el.dialog 'close'
-        return
-  
-      remove:->
-        Backbone.off "SHOW_TASK_EDITOR", @show, @
-        Backbone.View::remove.call @
         return
 )
