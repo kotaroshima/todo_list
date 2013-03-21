@@ -3,41 +3,65 @@
   var __hasProp = {}.hasOwnProperty;
 
   define(['jQuery', 'Underscore', 'Backbone', 'plugins/Subscribable'], function($, _, Backbone, Subscribable) {
+    var setup, teardown;
+    setup = function(self) {
+      var plugins, _ref;
+      self.teardowns = [];
+      plugins = [Subscribable];
+      if ((_ref = self.options) != null ? _ref.plugins : void 0) {
+        plugins = plugins.concat(self.options.plugins);
+      }
+      _.each(plugins, function(pi) {
+        var key, su, td, value;
+        su = pi.setup;
+        td = pi.teardown;
+        for (key in pi) {
+          if (!__hasProp.call(pi, key)) continue;
+          value = pi[key];
+          if (key !== 'setup' && key !== 'teardown') {
+            self[key] = value;
+          }
+        }
+        if (su) {
+          su.apply(self);
+        }
+        if (td) {
+          self.teardowns.push(td);
+        }
+      });
+    };
+    teardown = function(self) {
+      _.each(self.teardowns, function(td) {
+        td.apply(self);
+      });
+    };
     return {
+      Model: Backbone.Model.extend({
+        initialize: function(attributes, options) {
+          Backbone.Model.prototype.initialize.apply(this, arguments);
+          setup(this);
+        },
+        destroy: function(options) {
+          teardown(this);
+          Backbone.Model.prototype.destroy.apply(this, arguments);
+        }
+      }),
+      Collection: Backbone.Collection.extend({
+        initialize: function(models, options) {
+          Backbone.Collection.prototype.initialize.apply(this, arguments);
+          setup(this);
+        },
+        destroy: function() {
+          teardown(this);
+        }
+      }),
       View: Backbone.View.extend({
         initialize: function(options) {
-          var mixins,
-            _this = this;
           Backbone.View.prototype.initialize.apply(this, arguments);
-          this.teardowns = [];
-          mixins = [Subscribable];
-          if (options != null ? options.mixins : void 0) {
-            mixins = mixins.concat(options.mixins);
-          }
-          _.each(mixins, function(mi) {
-            var key, su, td, value;
-            su = mi.setup;
-            td = mi.teardown;
-            for (key in mi) {
-              if (!__hasProp.call(mi, key)) continue;
-              value = mi[key];
-              if (key !== 'setup' && key !== 'teardown') {
-                _this[key] = value;
-              }
-            }
-            if (su) {
-              su.apply(_this);
-            }
-            if (td) {
-              _this.teardowns.push(td);
-            }
-          });
+          setup(this);
         },
         remove: function() {
-          var _this = this;
-          _.each(this.teardowns, function(td) {
-            td.apply(_this);
-          });
+          teardown(this);
           Backbone.View.prototype.remove.apply(this, arguments);
         }
       })

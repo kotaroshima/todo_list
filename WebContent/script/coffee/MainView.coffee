@@ -30,7 +30,7 @@ define(
           el: "#taskListView",
           itemClass: TaskView,
           collection: taskList,
-          mixins: [Sortable],
+          plugins: [Sortable],
           subscribers:
             UPDATE_LIST: 'filterChildren'
         )
