@@ -1,5 +1,5 @@
 define(
-  ['jQuery', 'Underscore', 'Backbone', 'plugins/Subscribable'],
+  ['jQuery', 'Underscore', 'Backbone', 'backpack/plugins/Subscribable'],
   ($, _, Backbone, Subscribable) ->
     setup =(self)->
       self.teardowns = []

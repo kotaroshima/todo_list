@@ -7,7 +7,7 @@ define(
       if @options?.sortable isnt false
         @setSortable true
       return
-  
+
     setSortable:(isSortable)->
       if isSortable
         if @_sortableInit

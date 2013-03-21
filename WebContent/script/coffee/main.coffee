@@ -10,6 +10,10 @@ paths =
   Underscore: ['http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min']
   Backbone: ['http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.9/backbone-min']
   BackboneLocalStorage: ['http://cdnjs.cloudflare.com/ajax/libs/backbone-localstorage.js/1.0/backbone.localStorage-min']
+  Backpack: ['lib/backpack/Backpack']
+  'backpack/components/ListView': ['lib/backpack/components/ListView']
+  'backpack/plugins/Sortable': ['lib/backpack/plugins/Sortable']
+  'backpack/plugins/Subscribable': ['lib/backpack/plugins/Subscribable']
 
 shim =
   text:

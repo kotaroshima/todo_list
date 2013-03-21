@@ -1,6 +1,6 @@
 define(
   ['jQueryUI', 'Underscore', 'Backpack', 'TaskCollection',
-   'ListView', 'plugins/Sortable', 'TaskView', 'EditTaskView', 'text!template/MainView.html'],
+   'backpack/components/ListView', 'backpack/plugins/Sortable', 'TaskView', 'EditTaskView', 'text!template/MainView.html'],
   ($, _, Backpack, TaskCollection, ListView, Sortable, TaskView, EditTaskView, viewTemplate) ->
 
     Backpack.View.extend
@@ -15,10 +15,10 @@ define(
         @render()
 
         $('#datePicker').datepicker(
-          onSelect:(dateText, inst)=>
+          onSelect:(dateText, inst)->
             Backbone.trigger "UPDATE_LIST", { dateText:dateText, date:$('#datePicker').datepicker "getDate" }
             return
-          onClose:(dateText, inst)=>
+          onClose:(dateText, inst)->
             if !dateText or dateText.length is 0
               Backbone.trigger "UPDATE_LIST" # publish so that task list gets refreshed with no date filter
               return

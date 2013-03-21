@@ -2,7 +2,7 @@
 (function() {
   var __hasProp = {}.hasOwnProperty;
 
-  define(['jQuery', 'Underscore', 'Backbone', 'plugins/Subscribable'], function($, _, Backbone, Subscribable) {
+  define(['jQuery', 'Underscore', 'Backbone', 'backpack/plugins/Subscribable'], function($, _, Backbone, Subscribable) {
     var setup, teardown;
     setup = function(self) {
       var plugins, _ref;

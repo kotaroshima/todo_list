@@ -13,8 +13,7 @@
         this.listenTo(this.model, "destroy", this.remove);
       },
       render: function(model, value, options) {
-        var attrs, d, tagContainer,
-          _this = this;
+        var attrs, d, tagContainer;
         attrs = this.model.attributes;
         d = new Date(attrs["createdAt"]);
         attrs["formattedTime"] = _.template("<%=month%>/<%=day%>/<%=year%> <%=hours%>:<%=minutes%>", {

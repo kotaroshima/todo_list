@@ -24,9 +24,9 @@ define(
         tagContainer = @$el.find ".tagContainer"
         _.each(
           attrs["tags"],
-          (tag, idx) =>
+          (tag, idx) ->
             if idx > 0 then tagContainer.append "&nbsp;"
-            anchor = $(document.createElement("a")).prop(href:"javascript:void(0)").text(tag).click((evt)=>
+            anchor = $(document.createElement("a")).prop(href:"javascript:void(0)").text(tag).click((evt)->
               Backbone.trigger "UPDATE_LIST", { tag:tag }
               return
             )
