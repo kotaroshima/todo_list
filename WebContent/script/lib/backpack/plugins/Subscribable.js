@@ -16,7 +16,7 @@
           }
         }
       },
-      teardown: function() {
+      cleanup: function() {
         var cb, key, value, _ref, _ref1;
         if ((_ref = this.options) != null ? _ref.subscribers : void 0) {
           _ref1 = this.options.subscribers;

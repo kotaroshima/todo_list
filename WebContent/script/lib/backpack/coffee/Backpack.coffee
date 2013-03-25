@@ -2,22 +2,22 @@ define(
   ['jQuery', 'Underscore', 'Backbone', 'backpack/plugins/Subscribable'],
   ($, _, Backbone, Subscribable) ->
     setup =(self)->
-      self.teardowns = []
+      self.cleanups = []
       plugins = [Subscribable]
       plugins = plugins.concat self.options.plugins if self.options?.plugins
       _.each plugins, (pi)->
         su = pi.setup
-        td = pi.teardown
+        td = pi.cleanup
         for own key, value of pi
-          if key isnt 'setup' and key isnt 'teardown'
+          if key isnt 'setup' and key isnt 'cleanup'
             self[key] = value
         su.apply self if su
-        self.teardowns.push td if td
+        self.cleanups.push td if td
         return
       return
 
-    teardown=(self)->
-      _.each self.teardowns, (td)->
+    cleanup=(self)->
+      _.each self.cleanups, (td)->
         td.apply self
         return
       return
@@ -28,7 +28,7 @@ define(
         setup @
         return
       destroy:(options)->
-        teardown @
+        cleanup @
         Backbone.Model::destroy.apply @, arguments
         return
     Collection: Backbone.Collection.extend
@@ -37,7 +37,7 @@ define(
         setup @
         return
       destroy:->
-        teardown @
+        cleanup @
         return
     View: Backbone.View.extend
       initialize:(options)->
@@ -45,7 +45,7 @@ define(
         setup @
         return
       remove:->
-        teardown @
+        cleanup @
         Backbone.View::remove.apply @, arguments
         return
 )

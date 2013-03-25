@@ -31,7 +31,7 @@ define(
           @$el.sortable "disable"
       return
 
-    teardown:->
+    cleanup:->
       if @_sortableInit
         @$el.sortable "destroy"
       return

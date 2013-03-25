@@ -18,7 +18,7 @@ define(
           Backbone.on key, cb, @
       return
 
-    teardown:->
+    cleanup:->
       if @options?.subscribers
         for own key, value of @options.subscribers
           cb = if _.isString(value) then @[value] else value

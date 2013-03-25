@@ -38,7 +38,7 @@
           }
         }
       },
-      teardown: function() {
+      cleanup: function() {
         if (this._sortableInit) {
           this.$el.sortable("destroy");
         }

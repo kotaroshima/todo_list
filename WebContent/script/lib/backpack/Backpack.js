@@ -3,10 +3,10 @@
   var __hasProp = {}.hasOwnProperty;
 
   define(['jQuery', 'Underscore', 'Backbone', 'backpack/plugins/Subscribable'], function($, _, Backbone, Subscribable) {
-    var setup, teardown;
+    var cleanup, setup;
     setup = function(self) {
       var plugins, _ref;
-      self.teardowns = [];
+      self.cleanups = [];
       plugins = [Subscribable];
       if ((_ref = self.options) != null ? _ref.plugins : void 0) {
         plugins = plugins.concat(self.options.plugins);
@@ -14,11 +14,11 @@
       _.each(plugins, function(pi) {
         var key, su, td, value;
         su = pi.setup;
-        td = pi.teardown;
+        td = pi.cleanup;
         for (key in pi) {
           if (!__hasProp.call(pi, key)) continue;
           value = pi[key];
-          if (key !== 'setup' && key !== 'teardown') {
+          if (key !== 'setup' && key !== 'cleanup') {
             self[key] = value;
           }
         }
@@ -26,12 +26,12 @@
           su.apply(self);
         }
         if (td) {
-          self.teardowns.push(td);
+          self.cleanups.push(td);
         }
       });
     };
-    teardown = function(self) {
-      _.each(self.teardowns, function(td) {
+    cleanup = function(self) {
+      _.each(self.cleanups, function(td) {
         td.apply(self);
       });
     };
@@ -42,7 +42,7 @@
           setup(this);
         },
         destroy: function(options) {
-          teardown(this);
+          cleanup(this);
           Backbone.Model.prototype.destroy.apply(this, arguments);
         }
       }),
@@ -52,7 +52,7 @@
           setup(this);
         },
         destroy: function() {
-          teardown(this);
+          cleanup(this);
         }
       }),
       View: Backbone.View.extend({
@@ -61,7 +61,7 @@
           setup(this);
         },
         remove: function() {
-          teardown(this);
+          cleanup(this);
           Backbone.View.prototype.remove.apply(this, arguments);
         }
       })
