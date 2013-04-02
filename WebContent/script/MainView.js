@@ -5,8 +5,8 @@
     return Backpack.View.extend({
       template: _.template(viewTemplate),
       events: {
-        "click #newTaskBtn": "onNewButtonClicked",
-        "click #showAllLink": "onShowAllLinkClicked"
+        'click #newTaskBtn': 'onNewButtonClicked',
+        'click #showAllLink': 'onShowAllLinkClicked'
       },
       initialize: function(options) {
         var taskList;
@@ -14,27 +14,27 @@
         this.render();
         $('#datePicker').datepicker({
           onSelect: function(dateText, inst) {
-            Backbone.trigger("UPDATE_LIST", {
+            Backbone.trigger('UPDATE_LIST', {
               dateText: dateText,
-              date: $('#datePicker').datepicker("getDate")
+              date: $('#datePicker').datepicker('getDate')
             });
           },
           onClose: function(dateText, inst) {
             if (!dateText || dateText.length === 0) {
-              Backbone.trigger("UPDATE_LIST");
+              Backbone.trigger('UPDATE_LIST');
             }
           }
         });
         taskList = new TaskCollection();
         new EditTaskView({
-          el: "#dialogContainer",
+          el: '#dialogContainer',
           collection: taskList,
           subscribers: {
             SHOW_TASK_EDITOR: 'show'
           }
         });
         new ListView({
-          el: "#taskListView",
+          el: '#taskListView',
           itemClass: TaskView,
           collection: taskList,
           plugins: [Sortable],
@@ -43,38 +43,38 @@
           }
         });
         taskList.load();
-        Backbone.trigger("UPDATE_LIST");
+        Backbone.trigger('UPDATE_LIST');
       },
       render: function(model, value, options) {
         this.$el.html(this.template());
         return this;
       },
       onNewButtonClicked: function() {
-        Backbone.trigger("SHOW_TASK_EDITOR");
+        Backbone.trigger('SHOW_TASK_EDITOR');
       },
       onShowAllLinkClicked: function() {
-        Backbone.trigger("UPDATE_LIST");
+        Backbone.trigger('UPDATE_LIST');
       },
       onUpdateList: function(options) {
         var hasFilter, title;
         hasFilter = false;
         if (options) {
           if (options.tag) {
-            title = _.template("Tasks with tag '<%= tag %>'", options);
+            title = _.template('Tasks with tag "<%= tag %>"', options);
             hasFilter = true;
           } else if (options.dateText) {
-            title = _.template("Tasks created at '<%= dateText %>'", options);
+            title = _.template('Tasks created at "<%= dateText %>"', options);
             hasFilter = true;
           }
         }
         if (hasFilter) {
-          $('#showAllLink').css("display", "block");
+          $('#showAllLink').css('display', 'block');
         } else {
-          $('#showAllLink').css("display", "none");
-          $('#datePicker').val("");
-          title = "All Tasks";
+          $('#showAllLink').css('display', 'none');
+          $('#datePicker').val('');
+          title = 'All Tasks';
         }
-        $("#taskListTitle").text(title);
+        $('#taskListTitle').text(title);
       }
     });
   });

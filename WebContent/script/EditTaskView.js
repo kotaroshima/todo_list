@@ -5,27 +5,27 @@
     return Backpack.View.extend({
       template: _.template(viewTemplate),
       events: {
-        "click #saveTaskBtn": "onSaveButtonClicked",
-        "click #cancelTaskBtn": "onCancelButtonClicked"
+        'click #saveTaskBtn': 'onSaveButtonClicked',
+        'click #cancelTaskBtn': 'onCancelButtonClicked'
       },
       render: function() {
         var attrs;
         attrs = this._model ? this._model.attributes : {
-          text: ""
+          text: ''
         };
-        attrs["tagStr"] = _.reduce(attrs["tags"], function(memo, tag, idx) {
+        attrs['tagStr'] = _.reduce(attrs['tags'], function(memo, tag, idx) {
           if (idx > 0) {
-            memo += ", ";
+            memo += ', ';
           }
           memo += tag;
           return memo;
-        }, "");
+        }, '');
         this.$el.html(this.template(attrs));
         return this;
       },
       show: function(model) {
         var title;
-        title = model ? "Edit Task" : "Create New Task";
+        title = model ? 'Edit Task' : 'Create New Task';
         this._model = model;
         this.render().$el.dialog({
           title: title,
@@ -35,18 +35,18 @@
       },
       onSaveButtonClicked: function() {
         var prop, tagArr, task;
-        tagArr = _.chain($("#tagField").val().split(",")).map($.trim).reject(function(tag) {
+        tagArr = _.chain($('#tagField').val().split(',')).map($.trim).reject(function(tag) {
           return !tag || tag.length === 0;
         }).value();
         prop = {
-          text: $("#newTaskTextField").val(),
+          text: $('#newTaskTextField').val(),
           tags: tagArr
         };
         if (this._model) {
           task = this._model;
           task.set(prop);
         } else {
-          prop["createdAt"] = new Date().getTime();
+          prop['createdAt'] = new Date().getTime();
           task = new TaskModel(prop);
           this.collection.add(task);
         }

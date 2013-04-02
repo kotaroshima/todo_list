@@ -7,36 +7,38 @@ define(
       template: _.template viewTemplate
 
       events:
-        "click #newTaskBtn": "onNewButtonClicked"
-        "click #showAllLink": "onShowAllLinkClicked"
+        'click #newTaskBtn': 'onNewButtonClicked'
+        'click #showAllLink': 'onShowAllLinkClicked'
 
       initialize:(options)->
         Backpack.View::initialize.apply @, arguments
         @render()
 
-        $('#datePicker').datepicker(
+        $('#datePicker').datepicker
           onSelect:(dateText, inst)->
-            Backbone.trigger "UPDATE_LIST", { dateText:dateText, date:$('#datePicker').datepicker "getDate" }
+            Backbone.trigger 'UPDATE_LIST', { dateText:dateText, date:$('#datePicker').datepicker 'getDate' }
             return
           onClose:(dateText, inst)->
             if !dateText or dateText.length is 0
-              Backbone.trigger "UPDATE_LIST" # publish so that task list gets refreshed with no date filter
+              Backbone.trigger 'UPDATE_LIST' # publish so that task list gets refreshed with no date filter
               return
-        )
 
         taskList = new TaskCollection()
-        new EditTaskView el: "#dialogContainer", collection: taskList, subscribers: { SHOW_TASK_EDITOR: 'show' }
-        new ListView(
-          el: "#taskListView",
-          itemClass: TaskView,
-          collection: taskList,
-          plugins: [Sortable],
+        new EditTaskView
+          el: '#dialogContainer'
+          collection: taskList
+          subscribers:
+            SHOW_TASK_EDITOR: 'show'
+        new ListView
+          el: '#taskListView'
+          itemClass: TaskView
+          collection: taskList
+          plugins: [Sortable]
           subscribers:
             UPDATE_LIST: 'filterChildren'
-        )
 
         taskList.load()
-        Backbone.trigger "UPDATE_LIST"
+        Backbone.trigger 'UPDATE_LIST'
         return
 
       render:(model, value, options) ->
@@ -44,28 +46,28 @@ define(
         @
 
       onNewButtonClicked:->
-        Backbone.trigger "SHOW_TASK_EDITOR"
+        Backbone.trigger 'SHOW_TASK_EDITOR'
         return
 
       onShowAllLinkClicked:->
-        Backbone.trigger "UPDATE_LIST"
+        Backbone.trigger 'UPDATE_LIST'
         return
 
       onUpdateList:(options)->
         hasFilter = false
         if options
           if options.tag
-            title = _.template "Tasks with tag '<%= tag %>'", options
+            title = _.template 'Tasks with tag "<%= tag %>"', options
             hasFilter = true
           else if options.dateText
-            title = _.template "Tasks created at '<%= dateText %>'", options
+            title = _.template 'Tasks created at "<%= dateText %>"', options
             hasFilter = true
         if hasFilter
-          $('#showAllLink').css "display", "block"
+          $('#showAllLink').css 'display', 'block'
         else
-          $('#showAllLink').css "display", "none"
-          $('#datePicker').val ""
-          title = "All Tasks"
-        $("#taskListTitle").text title
+          $('#showAllLink').css 'display', 'none'
+          $('#datePicker').val ''
+          title = 'All Tasks'
+        $('#taskListTitle').text title
         return
 )

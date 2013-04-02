@@ -14,6 +14,7 @@ paths =
   'backpack/components/ListView': ['lib/backpack/components/ListView']
   'backpack/plugins/Sortable': ['lib/backpack/plugins/Sortable']
   'backpack/plugins/Subscribable': ['lib/backpack/plugins/Subscribable']
+  'backpack/plugins/Publishable': ['lib/backpack/plugins/Publishable']
 
 shim =
   text:
@@ -40,6 +41,9 @@ requirejs.config paths: paths, shim: shim
 require(
   ['MainView'],
   (MainView)->
-    new MainView el: "#pageContainer", subscribers: { UPDATE_LIST: 'onUpdateList' }
+    new MainView
+      el: '#pageContainer'
+      subscribers:
+        UPDATE_LIST: 'onUpdateList'
     return
 )

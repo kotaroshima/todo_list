@@ -19,7 +19,8 @@ ToDo list application that uses localStorage
     Backpack: ['lib/backpack/Backpack'],
     'backpack/components/ListView': ['lib/backpack/components/ListView'],
     'backpack/plugins/Sortable': ['lib/backpack/plugins/Sortable'],
-    'backpack/plugins/Subscribable': ['lib/backpack/plugins/Subscribable']
+    'backpack/plugins/Subscribable': ['lib/backpack/plugins/Subscribable'],
+    'backpack/plugins/Publishable': ['lib/backpack/plugins/Publishable']
   };
 
   shim = {
@@ -57,7 +58,7 @@ ToDo list application that uses localStorage
 
   require(['MainView'], function(MainView) {
     new MainView({
-      el: "#pageContainer",
+      el: '#pageContainer',
       subscribers: {
         UPDATE_LIST: 'onUpdateList'
       }
