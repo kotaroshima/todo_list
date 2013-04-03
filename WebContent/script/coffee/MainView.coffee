@@ -1,7 +1,6 @@
 define(
-  ['jQueryUI', 'Underscore', 'Backpack', 'TaskCollection',
-   'backpack/components/ListView', 'backpack/plugins/Sortable', 'TaskView', 'EditTaskView', 'text!template/MainView.html'],
-  ($, _, Backpack, TaskCollection, ListView, Sortable, TaskView, EditTaskView, viewTemplate) ->
+  ['jQueryUITouchPunch', 'Sortable', 'TaskCollection', 'TaskView', 'EditTaskView', 'text!template/MainView.html'],
+  ($, Backpack, TaskCollection, TaskView, EditTaskView, viewTemplate) ->
 
     Backpack.View.extend
       template: _.template viewTemplate
@@ -29,11 +28,11 @@ define(
           collection: taskList
           subscribers:
             SHOW_TASK_EDITOR: 'show'
-        new ListView
+        new Backpack.ListView
           el: '#taskListView'
           itemClass: TaskView
           collection: taskList
-          plugins: [Sortable]
+          plugins: [Backpack.Sortable]
           subscribers:
             UPDATE_LIST: 'filterChildren'
 
