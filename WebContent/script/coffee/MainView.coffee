@@ -1,6 +1,6 @@
 define(
-  ['jQueryUITouchPunch', 'Sortable', 'TaskCollection', 'TaskView', 'EditTaskView', 'text!template/MainView.html'],
-  ($, Backpack, TaskCollection, TaskView, EditTaskView, viewTemplate) ->
+  ['jQueryUITouchPunch', 'Sortable', 'LocalStorage', 'TaskModel', 'TaskView', 'EditTaskView', 'text!template/MainView.html'],
+  ($, Backpack, LocalStorage, TaskModel, TaskView, EditTaskView, viewTemplate) ->
 
     Backpack.View.extend
       template: _.template viewTemplate
@@ -22,12 +22,16 @@ define(
               Backbone.trigger 'UPDATE_LIST' # publish so that task list gets refreshed with no date filter
               return
 
-        taskList = new TaskCollection()
+        taskList = new Backpack.Collection null,
+          model: TaskModel
+          plugins: [LocalStorage]
+
         new EditTaskView
           el: '#dialogContainer'
           collection: taskList
           subscribers:
             SHOW_TASK_EDITOR: 'show'
+
         new Backpack.ListView
           el: '#taskListView'
           itemClass: TaskView
@@ -37,6 +41,7 @@ define(
             UPDATE_LIST: 'filterChildren'
 
         taskList.load()
+
         Backbone.trigger 'UPDATE_LIST'
         return
 
