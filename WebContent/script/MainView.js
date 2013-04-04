@@ -45,7 +45,6 @@
             UPDATE_LIST: 'filterChildren'
           }
         });
-        taskList.load();
         Backbone.trigger('UPDATE_LIST');
       },
       render: function(model, value, options) {

@@ -40,8 +40,6 @@ define(
           subscribers:
             UPDATE_LIST: 'filterChildren'
 
-        taskList.load()
-
         Backbone.trigger 'UPDATE_LIST'
         return
 
