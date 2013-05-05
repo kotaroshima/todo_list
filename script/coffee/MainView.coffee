@@ -1,5 +1,5 @@
 define(
-  ['jQueryUITouchPunch', 'Sortable', 'LocalStorage', 'TaskModel', 'TaskView', 'EditTaskView', 'text!template/MainView.html'],
+  ['jQueryUITouchPunch', 'Backpack', 'LocalStorage', 'TaskModel', 'TaskView', 'EditTaskView', 'text!template/MainView.html'],
   ($, Backpack, LocalStorage, TaskModel, TaskView, EditTaskView, viewTemplate) ->
 
     Backpack.View.extend
@@ -36,7 +36,7 @@ define(
           el: '#taskListView'
           itemClass: TaskView
           collection: taskList
-          plugins: [Backpack.Sortable]
+          plugins: [Backpack.Container, Backpack.Sortable]
           subscribers:
             UPDATE_LIST: 'filterChildren'
 

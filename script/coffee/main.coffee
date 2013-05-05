@@ -11,9 +11,7 @@ requirejs.config
     Underscore: ['http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min']
     Backbone: ['http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.9/backbone-min']
     BackboneLocalStorage: ['http://cdnjs.cloudflare.com/ajax/libs/backbone-localstorage.js/1.0/backbone.localStorage-min']
-    Backpack: ['lib/backpack/Backpack']
-    ListView: ['lib/backpack/components/ListView']
-    Sortable: ['lib/backpack/plugins/Sortable']
+    Backpack: ['lib/backpack/Backpack-all'],
   shim:
     text:
       exports: 'text'
@@ -35,12 +33,6 @@ requirejs.config
       exports: 'Backbone'
     Backpack:
       deps: ['jQuery', 'Underscore', 'Backbone']
-      exports: 'Backpack'
-    ListView:
-      deps: ['Backpack']
-      exports: 'Backpack'
-    Sortable:
-      deps: ['ListView']
       exports: 'Backpack'
 
 require(

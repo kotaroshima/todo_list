@@ -9,8 +9,8 @@ It allows users to add/edit/remove/reorder(with drag & drop) tasks.
  
 Usage
 ------
-* Just open WebContent/index.html with a browser
-* Unit Test can be ran by opening WebContent/test/test.html with a browser
+* Just open index.html with a browser
+* Unit Test can be ran by opening test/test.html with a browser
  
 Libraries Used
 --------
