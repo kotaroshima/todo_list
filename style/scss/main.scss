@@ -1,0 +1,88 @@
+@CHARSET "UTF-8";
+
+BODY {
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  color: #999999;
+  padding: 0 150px;
+}
+
+H1.title {
+  text-align: center;
+}
+
+A {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+#addTaskContainer {
+  text-align: right;
+  padding-right: 15px;
+}
+
+#showAllLink {
+  float: right;
+}
+
+.taskView {
+  display: table;
+  height: 32px;
+  width: 100%;
+
+  &:hover {
+    background-color: #FFEFC6;
+    color: #735005;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+  }
+
+  > * {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .taskText {
+    padding-left: 20px;
+  }
+
+  .tagContainer {
+    width: 200px;
+    text-align: center;
+  }
+
+  .createdAt {
+    width: 200px;
+  }
+
+  .taskActions {
+    width: 130px;
+    padding-right: 5px;
+
+    BUTTON {
+      display: none;
+    }
+  }
+
+  &:hover .taskActions BUTTON {
+    display: inline;
+    width: 60px;
+    height: 32px;
+  }
+}
+
+.editTaskView {
+  TABLE {
+    width: 100%;
+  }
+
+  TH {
+    text-align: right;
+  }
+}
+
+.editTaskButtonContainer {
+  text-align: center;
+}
