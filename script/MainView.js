@@ -40,7 +40,7 @@
           el: '#taskListView',
           itemClass: TaskView,
           collection: taskList,
-          plugins: [Backpack.Container, Backpack.Sortable],
+          plugins: [Backpack.ContainerPlugin, Backpack.SortablePlugin],
           subscribers: {
             UPDATE_LIST: 'filterChildren'
           }
